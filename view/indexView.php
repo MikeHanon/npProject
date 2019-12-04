@@ -1,4 +1,11 @@
-<?php $title = 'Acceuil'; ?>
+<?php $title = 'Acceuil'; 
+require_once './config/database.php';
+if($user->is_loggedin()!="")
+{
+    $user->redirect('../index.php');
+}
+if(isset($_POST))
+?>
 
 <?php ob_start(); ?>
 <div class="main-product">

@@ -1,8 +1,9 @@
 <?php
 require_once '../config/dbconfig.php';
-Class USER
+Class user
 {
     private $conn;
+
     public function __construct()
     {
         $database = New Database();
@@ -102,7 +103,22 @@ Class USER
 
     public function send_mail($email,$message,$subject)
     {
-        
+        require_once('class.phpmailer.php');
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 0;
+        $mail ->SMTPAuth = true;
+        $mail->SMTPSecure ="ssl";
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->AddAddress($email);
+        $mail->Username="e.artisanat.info@gmail.com";
+        $mail->Password="Ter44242";
+        $mail->SetForm('e.artisanat.info@gmail.com', 'E-artisanat.be');
+        $mail->AddReplyTo('e.artisanat.info@gmail.com', 'E-artisanat.be');
+        $mail->Subject = $subject;
+        $mail->MsgHTML($message);
+        $mail->Send();
     }
 }
 ?>
