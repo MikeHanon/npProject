@@ -20,7 +20,9 @@ session_start();
     <link rel="stylesheet" href="../css/slick.min.css">
     <!--responsive css-->
     <link rel="stylesheet" href="../css/responsive.css">
-    <title><?= $title ?></title>
+    <title><?=
+        isset($title) ? $title .'E-Artisanat': 'E-Artisanat, revalorisont l\'artisanat'
+    ?></title>
 </head>
 
 <body>
