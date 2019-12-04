@@ -1,4 +1,4 @@
-<?php $title = 'E-artisanat'; ?>
+<?php $title = 'Acceuil'; ?>
 
 <?php ob_start(); ?>
 <div class="main-product">
@@ -14,7 +14,7 @@
                         <a href="#">
                             <div class="box-img">
                                 <h4>Alimentation</h4>
-                                <img src="../images/product/allimentation.png" alt="" />
+                                <img src="./images/product/allimentation.png" alt="" />
                             </div>
                         </a>
                     </div>
@@ -22,7 +22,7 @@
                         <a href="productpage.html">
                             <div class="box-img">
                                 <h4>Batiment</h4>
-                                <img src="../images/product/batiment.png" alt="" />
+                                <img src="./images/product/batiment.png" alt="" />
                             </div>
                         </a>
                     </div>
@@ -30,7 +30,7 @@
                         <a href="productpage.html">
                             <div class="box-img">
                                 <h4>Fabrication</h4>
-                                <img src="../images/product/fabrication.png" alt="" />
+                                <img src="./images/product/fabrication.png" alt="" />
                             </div>
                         </a>
                     </div>
@@ -38,7 +38,7 @@
                         <a href="productpage.html">
                             <div class="box-img">
                                 <h4>Services</h4>
-                                <img src="../images/product/service.png" alt="" />
+                                <img src="./images/product/service.png" alt="" />
                             </div>
                         </a>
                     </div>
@@ -53,7 +53,7 @@
             <div class="col-md-4 col-sm-6 wow fadeIn" data-wow-delay="0.0s">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <img src="../images/xpann-icon.jpg" class="icon-small" alt="">
+                        <img src="./images/xpann-icon.jpg" class="icon-small" alt="">
                         <h4>Entreprenez</h4>
                         <p>Réaliser des profits jusqu'à 5100 €/an sans taxe <a href="#">en savoire plus</a>
                         </p>
@@ -63,7 +63,7 @@
             <div class="col-md-4 col-sm-6 wow fadeIn" data-wow-delay="0.2s">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <img src="../images/create-icon.jpg" class="icon-small" alt="">
+                        <img src="./images/create-icon.jpg" class="icon-small" alt="">
                         <h4>Achetez</h4>
                         <p>Acheté de vrai produit artisanaux fais près de chez vous. Des siège, bijoux ou même de bon petit plat
                             <a href="#">en savoire plus</a>
@@ -74,7 +74,7 @@
             <div class="col-md-4 col-sm-6 wow fadeIn hidden-sm" data-wow-delay="0.4s">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <img src="../images/get-icon.jpg" class="icon-small" alt="">
+                        <img src="./images/get-icon.jpg" class="icon-small" alt="">
                         <h4>Soyez inspirer</h4>
                         <p>Laissé aller votre inspiration pour proposer vos plus belle création <a href="#">en savoire plus</a>
                         </p>
@@ -107,12 +107,12 @@
         </div>
         <div class="row">
             <div class="main-start-box">
-                <div class="bg_img_left"><img src="../images/bg_img1.png" alt="#" /></div>
+                <div class="bg_img_left"><img src="./images/bg_img1.png" alt="#" /></div>
                 <div class="container">
                     <div class="buyer-box clearfix">
                         <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.2s">
                             <div class="left-buyer">
-                                <img class="img-responsive" src="../images/creat_pro.png" alt="#" />
+                                <img class="img-responsive" src="./images/creat_pro.png" alt="#" />
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 wow fadeIn" data-wow-delay="0.4s">
@@ -132,7 +132,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="bg_img_right"><img src="../images/bg_img1.png" alt="#" /></div>
+            <div class="bg_img_right"><img src="./images/bg_img1.png" alt="#" /></div>
             <div class="main-start-box">
                 <div class="container">
                     <div class="supplier clearfix">
@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-md-7 col-sm-6">
                             <div class="right-supplier">
-                                <img class="img-responsive" src="../images/supplier-pc-img.png" alt="#" />
+                                <img class="img-responsive" src="./images/supplier-pc-img.png" alt="#" />
                             </div>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                 <div>
                     <div class="prod-box">
                         <div class="prod-i">
-                            <img src="../images/tr1.png" alt="#" />
+                            <img src="./images/tr1.png" alt="#" />
                         </div>
                         <div class="prod-dit clearfix">
                             <div class="dit-t clearfix">

@@ -10,3 +10,5 @@ color : #ffff, #474747;
 background color: #09294c
 navbar: fixed top 
 footer: liens + reseaux sociaux
+
+utilisation du template Chamb trouvé sur free-css (https://www.free-css.com/free-css-templates/page242/chamb)

@@ -1,12 +1,21 @@
 <?php
+session_start();
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'npProjec');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'localhost');
 
-try{
-$db= new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USERNAME, DB_PASSWORD);
-}catch(PDOException $e){
+try
+{
+$dbCon= new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USERNAME, DB_PASSWORD);
+
+$dbCon->setAttribute(PDO::ATTRE_ERRMODE,PDO::ERRMODE_EXCEPTION);
+}
+
+catch(PDOException $e)
+{
     die('Erreur: '.$e->getMessage());
 }
+include_once 'ClassUser.php';
+$user = new USER($dbCON);

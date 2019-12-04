@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,17 +7,17 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- fontawesome css -->
-    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
     <!--bootstrap css-->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <!--animate css-->
-    <link rel="stylesheet" href="../css/animate-wow.css">
+    <link rel="stylesheet" href="./css/animate-wow.css">
     <!--main css-->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="../css/slick.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="./css/slick.min.css">
     <!--responsive css-->
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="./css/responsive.css">
     <title><?=
         isset($title) ? $title .'E-Artisanat': 'E-Artisanat, revalorisont l\'artisanat'
     ?></title>
@@ -75,7 +73,7 @@ session_start();
                                             <div class="login-signup">
                                                 <ul>
                                                     <li><a data-toggle="modal" data-target="#myModal" href="#">Login</a></li>
-                                                    <li><a class="custom-b" href="#">Sign up</a></li>
+                                                    <li><a class="custom-b" href="index.php?action=register">Sign up</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -203,23 +201,23 @@ session_start();
                            </a>
                         </li>
                      </ul>
-                     <ul class="right-flag">
+                     <!-- <ul class="right-flag">
                         <li><a href="#"><img src="images/flag.png" alt="" /> <span>Change</span></a></li>
-                     </ul>
+                     </ul> -->
                   </div>
                </div>
             </div>
          </div>
       </footer>
       <!--main js--> 
-      <script src="../js/jquery-1.12.4.min.js"></script> 
+      <script src="./js/jquery-1.12.4.min.js"></script> 
       <!--bootstrap js--> 
-      <script src="../js/bootstrap.min.js"></script> 
-      <script src="../js/bootstrap-select.min.js"></script>
-      <script src="../js/slick.min.js"></script> 
-      <script src="../js/wow.min.js"></script>
+      <script src="./js/bootstrap.min.js"></script> 
+      <script src="./js/bootstrap-select.min.js"></script>
+      <script src="./js/slick.min.js"></script> 
+      <script src="./js/wow.min.js"></script>
       <!--custom js--> 
-      <script src="../js/custom.js"></script>
+      <script src="./js/custom.js"></script>
 </body>
 
 </html>
