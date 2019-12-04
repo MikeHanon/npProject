@@ -1,87 +1,108 @@
 <?php
-class USER 
+require_once '../config/dbconfig.php';
+Class USER
 {
-    private $db;
-
-    function __construct($dbCon)
+    private $conn;
+    public function __construct()
     {
-        $this->db = $dbCon;
+        $database = New Database();
+        $db= $database->dbConnection();
+        $this->conn=$db;
     }
-
-    public function resgister($name, $surname, $username, $password, $role, $adresse, $email, $compte, $city, $photo)
+    public function runQuery($sql)
+    {
+        $stmt =$this->conn->prepare($sql);
+        return $stmt;
+    }
+    public function lastID()
+    {
+        $stmt = $this->conn->lastInsertId();
+        return $stmt;
+    }
+    public function register($uname,$email,$upass,$code,$role)
     {
         try
         {
-            $new_password = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt = $this->db->prepare("INSERT INTO user (username, password, role) VALUES(:username, :password, :role);
-            INSERT INTO `user_info`(`username`, `nom`, `prenom`, `adresse`, `email`, `compte`, `ville`, `photo`) VALUES(:username, :name, :surname, :adresse, :email, :compte, :city, :photo)
-            ");
-
-            $stmt->bindparam(':username', $username);
-            $stmt->bindparam(':password', $new_password);
-            $stmt->bindparam(':role', $role);
-            $stmt->bindparam(':name', $name);
-            $stmt->bindparam(':surname', $surname);
-            $stmt->bindparam(':adresse', $adresse);
-            $stmt->bindparam(':email', $email);
-            $stmt->bindparam(':compte', $compte);
-            $stmt->bindparam(':city', $city);
-            $stmt->bindparam(':photo', $photo);
+            $password = password_hash($upass, PASSWORD_DEFAULT);
+            $stmt = $this->conn->prepare("INSERT INTO tbl_users(userName, userEmail, userPass, tokenCode, role) VALUES (:user_name, :user_mail, :user_pass, :active_code, :role)");
+            $stmt->bindparam(":user_name", $uname);
+            $stmt->bindparam(":user_mail",$email);
+            $stmt->bindparam(":user_pass", $password);
+            $stmt->bindparam(":active_code", $code);
+            $stmt->bindparam(":role",$role);
             $stmt->execute();
             return $stmt;
-
         }
-        catch(PDOException $e)
+        catch (PDOException $ex)
         {
-            echo $e->getMessage();
+            echo $ex->getMessage();
         }
-
     }
 
-    public function login($username, $password)
+    public function login($uname,$email,$upass)
     {
         try
         {
-            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username LIMIT 1");
-            $stmt->execute(array(':username'=>$username));
-            $userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-            if($stmt->rowCount()>0)
+            $stmt = $this->db->prepare("SELECT * FROM tbl_users WHERE userName = :uname OR userEmail = :email LIMIT 1  ");
+            $stmt->execute([':uname'=>$uname, ':email'=>$email]);
+            $userRow = $stmt->fetcht(PDO::FETCH_ASSOC);
+
+            if($stmt->rowCount() > 0)
             {
-                if(password_verify($password,$userRow['password']))
+                if($userRow['userStatus'] == "Y")
                 {
-                    $_SESSION['user_session']= $userRow['username'];
-                    return true;
-                }else
+                    if(password_verify($upass, $userRow['user_pass']))
+                    {
+                        $_SESSION['userSession'] = $userRow['userID'];
+                        $_SESSION['userName'] = $userRow['userName'];
+                        $_SESSION['role'] = $userRow['role'];
+                        return true;
+                    }
+                    else
+                    {
+                        header("Location: index.php?error");
+                        exit;
+                    }
+                }
+                else
                 {
-                    return false;
+                    header("Location: index.php?inactive");
+                    exit;
                 }
             }
+            else
+            {
+                header("Location: index.php?error");
+                exit;
+            }
         }
-        catch(PDOException $e)
+        catch (PDOException $ex)
         {
-            echo $e->getMessage();
+            echo $ex->getMessage();
         }
-
     }
 
-    public function is_loggedin()
+    public function is_logged_in()
     {
-        if(isset($_SESSION['user_session']))
+        if(isset($_SESSION['userSession']))
         {
             return true;
         }
     }
-
     public function redirect($url)
     {
-        header("location: $url");
+        header("Location: $url");
     }
+
     public function logout()
     {
         session_destroy();
-        unset($_SESSION['user_session']);
-        return true;
+        $_SESSION['userSession'] = false;
+    }
+
+    public function send_mail($email,$message,$subject)
+    {
+        
     }
 }
 ?>
