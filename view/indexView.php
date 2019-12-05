@@ -1,10 +1,5 @@
 <?php $title = 'Acceuil'; 
-require_once './config/database.php';
-if($user->is_loggedin()!="")
-{
-    $user->redirect('../index.php');
-}
-if(isset($_POST))
+require_once './config/dbconfig.php';
 ?>
 
 <?php ob_start(); ?>

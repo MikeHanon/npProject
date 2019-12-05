@@ -1,5 +1,5 @@
 <?php
-require_once('model/classUser.php');
+require_once('./class/classUser.php');
 
 function test_input($data)
 {
@@ -21,10 +21,10 @@ function register()
     {
         $uname = test_input($_POST['txtuname']);
         $email=test_input($_POST['txtemail']);
-        $upass = test_input(password_hash($_POST['txtpass'], DEFAULT_PASSWORD));
+        $upass = test_input(password_hash($_POST['txtpass'], PASSWORD_DEFAULT));
         $role=$_POST['role'];
         $code = bin2hex(random_bytes(16));
-        $stmt = $reg_user->runQuery("SELECT * FROM tbl_users Where userEmail =:email_id");
+        $stmt = $reg_user->runQuery("SELECT * FROM tbl_users WHERE userEmail=:email_id");
         $stmt->execute([":email_id"=>$email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -47,7 +47,7 @@ function register()
                 Bienvenu sur E-artisanat! <br/>
                 Pour completer ton inscription clique simplement sur le lien suivant <br/>
                 <br/><br/>
-                <a href='http://localhost/npProject/index.php?action=verify&id=$id&code=&code'>Clique ICI pour Activer ;)</a>
+                <a href='http://localhost/npProject/index.php?action=verify&id=$id&code=$code''>Clique ICI pour Activer ;)</a>
                 <br/><br/>
                 L'équipe de E-artisanat 
                 ";
@@ -69,5 +69,6 @@ function register()
         }
 
     }
+    require ('./view/registerView.php');
 
 }

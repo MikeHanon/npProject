@@ -1,5 +1,8 @@
 <?php
-require_once '../config/dbconfig.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+
+require_once './config/dbconfig.php';
 Class user
 {
     private $conn;
@@ -9,10 +12,12 @@ Class user
         $database = New Database();
         $db= $database->dbConnection();
         $this->conn=$db;
+
     }
     public function runQuery($sql)
     {
         $stmt =$this->conn->prepare($sql);
+        
         return $stmt;
     }
     public function lastID()
@@ -103,18 +108,21 @@ Class user
 
     public function send_mail($email,$message,$subject)
     {
-        require_once('class.phpmailer.php');
+        
+        require_once('PHPMailer/PHPMailer.php');
+       
         $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->SMTPDebug = 0;
-        $mail ->SMTPAuth = true;
-        $mail->SMTPSecure ="ssl";
-        $mail->Host = "smtp.gmail.com";
-        $mail->Port = 465;
+        $mail->IsSMTP(); 
+        $mail->SMTPDebug  = 0;                     
+        $mail->SMTPAuth   = true;                  
+        $mail->SMTPSecure = "ssl";                 
+        $mail->Host       = "smtp.gmail.com";      
+        $mail->Port       = 465;             
         $mail->AddAddress($email);
         $mail->Username="e.artisanat.info@gmail.com";
         $mail->Password="Ter44242";
-        $mail->SetForm('e.artisanat.info@gmail.com', 'E-artisanat.be');
+        $mail->From='e.artisanat.info@gmail.com';
+        $mail->FromName = 'E-artisanat.be';
         $mail->AddReplyTo('e.artisanat.info@gmail.com', 'E-artisanat.be');
         $mail->Subject = $subject;
         $mail->MsgHTML($message);
