@@ -7,10 +7,11 @@ if($_GET['action'] == 'register'){
 }else if ($_GET['action'] == 'verify')
 {
     Verify();
-}else if ($_GET['action'] == 'profile')
+}else if ($_GET['action'] == 'login')
 {
-    require ('./view/indexView.php');
+    login();
+    
 }
 }else{
-    login();
+    require ('./view/indexView.php');
 }

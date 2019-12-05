@@ -73,7 +73,7 @@
                                         <div class="login-sr">
                                             <div class="login-signup">
                                                 <ul>
-                                                    <li><a data-toggle="modal" data-target="#myModal" href="#">Login</a></li>
+                                                    <li><a href="index.php?action=login">Login</a></li>
                                                     <li><a class="custom-b" href="index.php?action=register">Sign up</a></li>
                                                 </ul>
                                             </div>
@@ -86,7 +86,7 @@
                         <!--/.container-fluid -->
         </nav>
     </header>
-
+   
     <div><?=$content?></div>
     <footer>
          <div class="main-footer">

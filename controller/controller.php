@@ -141,20 +141,21 @@ function Verify()
 
 function login(){
     $user_login = new user();
-
+    
     if($user_login->is_logged_in()!="")
     {
         $user_login->redirect('index.php?action=profile');
     }
-    if(isset($_POST['btn-login']))
+    if(isset($_POST['txtemail']))
     {
-        $email = trim($_POST['txtemail']);
-        $upass = trim($_POST['txtupass']);
+        
+        $email = ($_POST['txtemail']);
+        $upass = ($_POST['txtupass']);
         
         if($user_login->login($email,$upass))
         {
          $user_login->redirect('index.php?action=profile');
         }
        }
-    require('./view/indexView.php');
+    require('./view/loginView.php');
 }

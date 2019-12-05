@@ -24,8 +24,7 @@ $title = 'inscription'
       </form>
 
     </section> <!-- /container -->
-    <script src="vendors/jquery-1.9.1.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+   
   </section>
 
 <?php $content = ob_get_clean(); ?>

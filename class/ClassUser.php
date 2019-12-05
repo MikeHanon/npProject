@@ -6,7 +6,7 @@ require_once './config/dbconfig.php';
 Class user
 {
     private $conn;
-    private $db;
+    
 
     public function __construct()
     {
@@ -48,17 +48,20 @@ Class user
 
     public function login($email,$upass)
     {
+        var_dump($email);
         try
         {
-            $stmt = $this->db->prepare("SELECT * FROM tbl_users WHERE userEmail = :email LIMIT 1  ");
+            $stmt = $this->conn->prepare("SELECT * FROM tbl_users WHERE userEmail = :email LIMIT 1  ");
             $stmt->execute([':email'=>$email]);
-            $userRow = $stmt->fetcht(PDO::FETCH_ASSOC);
-
+            $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+           var_dump($userRow);
             if($stmt->rowCount() > 0)
             {
+               
                 if($userRow['userStatus'] == "Y")
                 {
-                    if(password_verify($upass, $userRow['user_pass']))
+                    $test = password_verify($upass,$userRow['userName'] );
+                    if($test)
                     {
                         $_SESSION['userSession'] = $userRow['userID'];
                         $_SESSION['userName'] = $userRow['userName'];
@@ -67,8 +70,10 @@ Class user
                     }
                     else
                     {
-                        header("Location: index.php?error");
-                        exit;
+                        
+                        header("Location: index.php?action=login&error=$test");
+                        
+                        
                     }
                 }
                 else
@@ -79,8 +84,10 @@ Class user
             }
             else
             {
-                header("Location: index.php?error");
-                exit;
+                var_dump($_POST);
+                header("Location: index.php?action=login&error");
+                
+                
             }
         }
         catch (PDOException $ex)
