@@ -30,14 +30,17 @@ Class user
     {
         try
         {
-            $password = password_hash($upass, PASSWORD_DEFAULT);
+            $password = $upass;
             $stmt = $this->conn->prepare("INSERT INTO tbl_users(userName, userEmail, userPass, tokenCode, role) VALUES (:user_name, :user_mail, :user_pass, :active_code, :role)");
-            $stmt->bindparam(":user_name", $uname);
-            $stmt->bindparam(":user_mail",$email);
-            $stmt->bindparam(":user_pass", $password);
-            $stmt->bindparam(":active_code", $code);
-            $stmt->bindparam(":role",$role);
-            $stmt->execute();
+           
+           $data =[ 
+            ":user_name"=> $uname,
+            ":user_mail"=>$email,
+            ":user_pass"=> $password,
+            ":active_code"=> $code,
+            ":role"=>$role
+           ];
+            $stmt->execute($data);
             return $stmt;
         }
         catch (PDOException $ex)
@@ -46,24 +49,33 @@ Class user
         }
     }
 
-    public function login($email,$upass)
+    function login($email,$upass)
     {
-        var_dump($email);
+        
         try
         {
             $stmt = $this->conn->prepare("SELECT * FROM tbl_users WHERE userEmail = :email LIMIT 1  ");
             $stmt->execute([':email'=>$email]);
-            $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
-           var_dump($userRow);
+            
+           
             if($stmt->rowCount() > 0)
             {
-               
+                $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                $test = $userRow['userPass'];
+                    
                 if($userRow['userStatus'] == "Y")
                 {
-                    $test = password_verify($upass,$userRow['userName'] );
-                    if($test)
+                    var_dump($test);
+                    echo '<br>';
+                    var_dump($upass);
+                    echo '<br>';
+                    var_dump(password_hash($upass, PASSWORD_DEFAULT));
+                    echo '<br>';
+                  var_dump(password_verify($upass,$userRow['userPass']));
+                    
+                    if(password_verify($upass,$userRow['userPass'] ))
                     {
-                        $_SESSION['userSession'] = $userRow['userID'];
+                        $_SESSION['userSession'] = $$userRow['userID'];
                         $_SESSION['userName'] = $userRow['userName'];
                         $_SESSION['role'] = $userRow['role'];
                         return true;
@@ -71,16 +83,18 @@ Class user
                     else
                     {
                         
-                        header("Location: index.php?action=login&error=$test");
-                        
+                        // header("Location: index.php?action=login&error=$upass&$test");
+                        var_dump('else');
                         
                     }
                 }
                 else
                 {
-                    header("Location: index.php?inactive");
-                    exit;
+                    // header("Location: index.php?action=login&inactive&$stmt");
+                    var_dump($userRow);
+                    // exit;
                 }
+            
             }
             else
             {

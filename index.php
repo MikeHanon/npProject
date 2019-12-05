@@ -9,8 +9,10 @@ if($_GET['action'] == 'register'){
     Verify();
 }else if ($_GET['action'] == 'login')
 {
-    login();
+    login2();
     
+}else if ($_GET['action'] == 'profile'){
+    require('./view/profile.php');
 }
 }else{
     require ('./view/indexView.php');
