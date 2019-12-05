@@ -15,7 +15,7 @@ function register()
 
     if($reg_user->is_logged_in()!="")
     {
-        $reg_user->redirect('index.php?action=home');
+        $reg_user->redirect('index.php?action=profile');
     }
     if(isset($_POST['btn-signup']))
     {
@@ -38,8 +38,10 @@ function register()
             if($reg_user->register($uname,$email,$upass,$code,$role))
             {
                 $id = $reg_user->lastID();
+                
                 $key = base64_encode($id);
                 $id = $key;
+                var_dump($id);
 
                 $message = "
                 Hello $uname,
@@ -78,11 +80,12 @@ function Verify()
 
     if(empty($_GET['id']) && empty($_GET['code']))
     {
-        $user->redirect('index.php?action=home');
+        $user->redirect('index.php?action=profile');
     }
     if(isset($_GET['id']) && isset($_GET['code'])){
-        var_dump($_GET['id']);
-        $id = base64_decode($_GET('id'));
+        
+        $id = base64_decode($_GET['id']);
+        
         $code = $_GET['code'];
     }
 
@@ -98,10 +101,15 @@ function Verify()
 
         if($row['userStatus'] == $statusN)
         {
-            $stmt = $user->runQuery("UPDATE tbl_users SET userStatus=:status WHERE userID=u:ID");
-            $stmt->bindpara(":status", $statusY);
-            $stmt->bindparam(":uID", $id);
-            $stmt->execute();
+            $stmt = $user->runQuery("UPDATE tbl_users SET userStatus=:status WHERE userID=:uID");
+            $data= [
+                ":status"=>$statusY,
+                ":uID"=>intval($id)
+            ];
+            var_dump($data);
+            var_dump($stmt->execute($data));
+            $stmt->execute($data);
+            
 
             $msg = "<div class='alert alert-success'>
             <button class='close' data-dismiss='alert'>&times;</button>
@@ -129,4 +137,24 @@ function Verify()
       ";
     }
     require('./view/verifyView.php');
+}
+
+function login(){
+    $user_login = new user();
+
+    if($user_login->is_logged_in()!="")
+    {
+        $user_login->redirect('index.php?action=profile');
+    }
+    if(isset($_POST['btn-login']))
+    {
+        $email = trim($_POST['txtemail']);
+        $upass = trim($_POST['txtupass']);
+        
+        if($user_login->login($email,$upass))
+        {
+         $user_login->redirect('index.php?action=profile');
+        }
+       }
+    require('./view/indexView.php');
 }

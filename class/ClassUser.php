@@ -6,6 +6,7 @@ require_once './config/dbconfig.php';
 Class user
 {
     private $conn;
+    private $db;
 
     public function __construct()
     {
@@ -45,12 +46,12 @@ Class user
         }
     }
 
-    public function login($uname,$email,$upass)
+    public function login($email,$upass)
     {
         try
         {
-            $stmt = $this->db->prepare("SELECT * FROM tbl_users WHERE userName = :uname OR userEmail = :email LIMIT 1  ");
-            $stmt->execute([':uname'=>$uname, ':email'=>$email]);
+            $stmt = $this->db->prepare("SELECT * FROM tbl_users WHERE userEmail = :email LIMIT 1  ");
+            $stmt->execute([':email'=>$email]);
             $userRow = $stmt->fetcht(PDO::FETCH_ASSOC);
 
             if($stmt->rowCount() > 0)

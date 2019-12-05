@@ -39,13 +39,14 @@
                             </button>
                             <a href="index.html" class="navbar-brand"><img src="images/logo.png" alt="" /></a>
                         </div>
+                        <?php if (isset($_SESSION['userName'])) { ?>
                         <form class="navbar-form navbar-left web-sh">
                             <div class="form">
                                 <input type="text" class="form-control" placeholder="Search for products or companies">
                             </div>
                         </form>
                     </div>
-                    <?php if (isset($_SESSION['username'])) { ?>
+                    
                         <div class="col-md-8 col-sm-12">
                             <div class="right-nav">
                                 <div class="login-sr">
@@ -78,22 +79,6 @@
                                             </div>
                                         </div>
                                     <?php } ?>
-                                    <!-- <div class="help-r hidden-xs">
-                           <div class="help-box">
-                              <ul>
-                                 <li> <a data-toggle="modal" data-target="#myModal" href="#"> <span>Change</span> <img src="images/flag.png" alt="" /> </a> </li>
-                                 <li> <a href="#"><img class="h-i" src="images/help-icon.png" alt="" /> Help </a> </li>
-                              </ul>
-                           </div>
-                        </div> -->
-                                    <div class="nav-b hidden-xs">
-                                        <div class="nav-box">
-                                            <ul>
-                                                <li><a href="howitworks.html">How it works</a></li>
-                                                <li><a href="about-us.html">Chamb for Business</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,25 +86,7 @@
                         <!--/.container-fluid -->
         </nav>
     </header>
-    <div class="modal fade lug" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Login</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="">
-                        <label for="username">Login</label>
-                        <input type="text" class="form-control" name="username">
-                        <label for="password">password</label>
-                        <input type="password" class="form-control" name="password">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div><?=$content?></div>
     <footer>
          <div class="main-footer">
