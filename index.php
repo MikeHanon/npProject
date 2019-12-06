@@ -12,7 +12,7 @@ if($_GET['action'] == 'register'){
     login2();
     
 }else if ($_GET['action'] == 'profile'){
-    require('./view/profile.php');
+    profile();
 }
 }else{
     require ('./view/indexView.php');

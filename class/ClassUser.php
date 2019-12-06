@@ -41,6 +41,7 @@ Class user
             ":role"=>$role
            ];
             $stmt->execute($data);
+           
             return $stmt;
         }
         catch (PDOException $ex)
@@ -62,16 +63,9 @@ Class user
             {
                 $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
                 $test = $userRow['userPass'];
-                    
+                    var_dump($userRow);
                 if($userRow['userStatus'] == "Y")
                 {
-                    var_dump($test);
-                    echo '<br>';
-                    var_dump($upass);
-                    echo '<br>';
-                    var_dump(password_hash($upass, PASSWORD_DEFAULT));
-                    echo '<br>';
-                  var_dump(password_verify($upass,$userRow['userPass']));
                     
                     if(password_verify($upass,$userRow['userPass'] ))
                     {

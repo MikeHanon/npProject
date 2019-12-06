@@ -26,7 +26,9 @@ function register()
         $role=$_POST['role'];
         $code = bin2hex(random_bytes(16));
         $stmt = $reg_user->runQuery("SELECT * FROM tbl_users WHERE userEmail=:email_id");
+        $stmt2 = $reg_user->runQuery(" INSERT INTO user_info (username,email) VALUES (:user_name, :user_mail)");
         $stmt->execute([":email_id"=>$email]);
+       var_dump($stmt2->execute([":user_name"=>$uname,":user_mail"=>$email])) ;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($stmt->rowCount()>0)
@@ -103,6 +105,7 @@ function Verify()
         if($row['userStatus'] == $statusN)
         {
             $stmt = $user->runQuery("UPDATE tbl_users SET userStatus=:status WHERE userID=:uID");
+            
             $data= [
                 ":status"=>$statusY,
                 ":uID"=>intval($id)
@@ -110,6 +113,7 @@ function Verify()
             var_dump($data);
             var_dump($stmt->execute($data));
             $stmt->execute($data);
+            
             
 
             $msg = "<div class='alert alert-success'>
@@ -160,4 +164,21 @@ function login2(){
         }
        }
     require('./view/loginView.php');
+}
+
+function profile()
+{
+    $user_home = new user();
+
+    if($user_home->is_logged_in())
+    {
+        $user_home->redirect('index.php');
+    }
+    $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userName=:uname");
+    $stmt->execute([':uname'=>$_SESSION['userName']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    var_dump($row["userName"]);
+    require('./view/profile.php');
+   
+
 }
