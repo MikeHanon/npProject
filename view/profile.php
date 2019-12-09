@@ -16,5 +16,17 @@ if($row['role']==2){
 }
 
 ?></p>
+<section>
+    ville = <?= $city2['city_name']?>
+    code postale = <?=$city2['CP']?>
+</section>
+<section>
+    nom : <?= $row2['nom']?>
+    prenom: <?= $row2['prenom']?>
+    adresse: <?= $row2['adresse']?>
+    email:  <?= $row2['email']?>
+    n° de compte : <?= $row2['compte']?>
+    <img src="<?php if($row2['photo']!=""){echo($row2['photo'];}else{echo './image/product/1.png';}?>" alt="">
+</section>
 <?php $content = ob_get_clean(); ?>
         <?php require('template.php'); ?>

@@ -15,6 +15,12 @@ if($_GET['action'] == 'register'){
     profile();
 }else if ($_GET['action'] == 'logout'){
     logout();
+}else if($_GET['action'] == 'forgotPassword')
+{
+    forgotPassword();
+}else if($_GET['action'] == 'resetPassword')
+{
+    resetPass();
 }
 }else{
     require ('./view/indexView.php');

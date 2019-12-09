@@ -181,8 +181,14 @@ function profile()
         $user_home->redirect('index.php');
     }
     $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+    $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE id =:uid");
+    $city = $user_home->runQuery("SELECT * FROM ville INNER JOIN user_info WHERE ville.id = user_info.ville");
     $stmt->execute([':uid'=>$_SESSION['userSession']]);
+    $stmt2->execute([':uid'=>$_SESSION['userSession']]);
+    $city->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $city2 = $city->fetch(PDO::FETCH_ASSOC);
     
     require('./view/profile.php');
    
@@ -208,4 +214,102 @@ if($user->is_logged_in()!="")
  $user->logout(); 
  $user->redirect('index.php');
 }
+}
+
+function forgotPassword()
+{
+    $user = new User;
+
+    if($user->is_logged_in()!="")
+    {
+        $user->redirect('index.php');
+    }
+
+    if(isset($_POST['btn-submit']))
+    {
+        $email = $_POST['txtemail'];
+
+        $stmt = $user->runQuery("SELECT userID FROM tbl_users WHERE userEmail=:email LIMIT 1");
+        $stmt->execute([":email"=>$email]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($stmt->rowCount()== 1)
+        {
+            $id = base64_encode($row['userID']);
+            $code = bin2hex(random_bytes(16));
+            $stmt = $user->runQuery("UPDATE tbl_users SET tokenCode=:token WHERE userEmail=:email");
+            $stmt->execute([":token"=>$code,":email"=>$email]);
+            $message = "
+            Bonjour, $email 
+            <br /> <br />
+            Nous avons recus une demnde de réinitialisation de votre mot de passe. Si vous en êtes a l'origine,
+            veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe, si ce n'est pas le cas ignorer simplement cet email.
+            <br/> <br />
+            Cliquer sur le lien suivant pour réinitialiser votre mot de passe
+            <br /> <br />
+            <a <a href='http://localhost/npProject/index.php?action=resetPassword&id=$id&code=$code'> cliquer ICI pour réinitialiser votre mot de passe</a>
+            <br /> <br />
+            Merci <br />
+            L'équipe d'E-artisanat";
+            $subject = "Réinitialisation de votre mot de passe";
+            $user->send_mail($email,$message,$subject);
+            $msg = "<div class='alert alert-success'> <button class='close' data-dismiss='alert'>&times;</button>
+            Nous avons envoyé un email à $email.<br />
+            Cliquez sur le lien de réinitialisation du mot de passe dans l'email pour générer un nouveau mot de passe. </div>";
+        }
+        else
+        {
+            $msg = "<div class= 'alert alert-danger'> <button class='close' data-dismaiss='alert>&times;</button>
+            <strong>Désolé!</strong> cet email n'a pas été trouvé</div>";
+        }
+    }
+    require('./view/forgotPasswordView.php');
+}
+
+function resetPass()
+{
+    $user = new User;
+    if(empty($_GET['id']) && empty($_GET['code']))
+    {
+        $user->redirect('index.php');
+    }
+
+    if(isset($_GET['id']) && isset($_GET['code']))
+    {
+        $id=base64_decode($_GET['id']);
+        $code = $_GET['code'];
+
+        $stmt = $user->runQuery("SELECT * FROM tbl_users WHERE userID=:uid AND tokenCode=:token");
+        $stmt->execute([":uid"=>$id,":token"=>$code]);
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($stmt->rowCount()== 1)
+        {
+            if(isset($_POST['btn-reset-pass']))
+            {
+                $pass = $_POST['pass'];
+                $cpass = $_POST['confirm-pass'];
+
+                if($cpass!==$pass)
+                {
+                    $msg = "<div class='alert alert-block'>
+                    <button class ='close' data-dismiss='alert'>&times;</button>
+                    <strong>Désolé</strong> les mots de passe ne coresspondent pas</div>";
+                }
+                else
+                {
+                    $stmt = $user->runQuery("UPDATE tbl_users SET userPass=:upass WHERE userID=:uid");
+                    $stmt->execute([":upass"=>password_hash($cpass,PASSWORD_DEFAULT),":uid"=>$rows['userID']]);
+                    $msg = "<idv class='alert alert-success'><button class='close' data-dismiss='alert'>&times;</button>
+                    Mot de passe changé.</div>";
+
+                    header("refresh:5; index.php?action=login");
+                }
+            }
+        }
+        else
+        {
+            exit;
+        }
+        require('./view/resetPasswordView.php');
+    }
 }
