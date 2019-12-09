@@ -63,7 +63,7 @@ Class User
             {
                 $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
                 $test = $userRow['userPass'];
-                    var_dump($userRow);
+                 
                 if($userRow['userStatus'] == "Y")
                 {
                     
@@ -92,7 +92,7 @@ Class User
             }
             else
             {
-                var_dump($_POST);
+               
                 header("Location: index.php?action=login&error");
                 
                 

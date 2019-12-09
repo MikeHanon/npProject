@@ -22,7 +22,7 @@ function register()
         $uname = test_input($_POST['txtuname']);
         $email=test_input($_POST['txtemail']);
         $upass = password_hash($_POST['txtpass'], PASSWORD_DEFAULT);
-        var_dump($upass);
+  
         $role=$_POST['role'];
         $code = bin2hex(random_bytes(16));
         $stmt = $reg_user->runQuery("SELECT * FROM tbl_users WHERE userEmail=:email_id");
