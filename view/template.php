@@ -60,7 +60,7 @@
                                                     <a class="dropdown-item" href="#">Votre Compte</a>
                                                     <a class="dropdown-item" href="#">commande</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">deconexion</a>
+                                                    <a class="dropdown-item" href="index.php?action=logout">deconexion</a>
                                                 </div>
                                             </li>
 

@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 
 require_once './config/dbconfig.php';
-Class user
+Class User
 {
     private $conn;
     
@@ -69,7 +69,7 @@ Class user
                     
                     if(password_verify($upass,$userRow['userPass'] ))
                     {
-                        $_SESSION['userSession'] = $$userRow['userID'];
+                        $_SESSION['userSession'] = $userRow['userID'];
                         $_SESSION['userName'] = $userRow['userName'];
                         $_SESSION['role'] = $userRow['role'];
                         return true;
@@ -77,16 +77,16 @@ Class user
                     else
                     {
                         
-                        // header("Location: index.php?action=login&error=$upass&$test");
-                        var_dump('else');
+                        header("Location: index.php?action=login&error=$upass&$test");
+                        exit;
                         
                     }
                 }
                 else
                 {
-                    // header("Location: index.php?action=login&inactive&$stmt");
-                    var_dump($userRow);
-                    // exit;
+                    header("Location: index.php?action=login&inactive&$stmt");
+                    
+                    exit;
                 }
             
             }
@@ -144,5 +144,19 @@ Class user
         $mail->MsgHTML($message);
         $mail->Send();
     }
+}
+class Admin extends User
+{
+
+}
+
+class Seller extends User
+{
+
+}
+
+class Buyer extends User
+{
+
 }
 ?>

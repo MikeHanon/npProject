@@ -13,6 +13,8 @@ if($_GET['action'] == 'register'){
     
 }else if ($_GET['action'] == 'profile'){
     profile();
+}else if ($_GET['action'] == 'logout'){
+    logout();
 }
 }else{
     require ('./view/indexView.php');

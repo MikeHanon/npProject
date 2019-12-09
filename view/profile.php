@@ -1,5 +1,6 @@
 <?php $title = $_SESSION['userName']; 
 require_once './config/dbconfig.php';
+var_dump($_SESSION);
 ?>
 
 <?php ob_start(); ?>
@@ -13,6 +14,7 @@ if($row['role']==2){
 }else if($row['role']== 1){
     echo 'admin';
 }
+
 ?></p>
 <?php $content = ob_get_clean(); ?>
         <?php require('template.php'); ?>

@@ -11,7 +11,7 @@ function test_input($data)
 
 function register()
 {
-    $reg_user = new user();
+    $reg_user = new User();
 
     if($reg_user->is_logged_in()!="")
     {
@@ -28,7 +28,7 @@ function register()
         $stmt = $reg_user->runQuery("SELECT * FROM tbl_users WHERE userEmail=:email_id");
         $stmt2 = $reg_user->runQuery(" INSERT INTO user_info (username,email) VALUES (:user_name, :user_mail)");
         $stmt->execute([":email_id"=>$email]);
-       var_dump($stmt2->execute([":user_name"=>$uname,":user_mail"=>$email])) ;
+       $stmt2->execute([":user_name"=>$uname,":user_mail"=>$email]) ;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($stmt->rowCount()>0)
@@ -44,7 +44,7 @@ function register()
                 
                 $key = base64_encode($id);
                 $id = $key;
-                var_dump($id);
+             
 
                 $message = "
                 Hello $uname,
@@ -79,7 +79,7 @@ function register()
 }
 function Verify()
 {
-    $user = new user();
+    $user = new User();
 
     if(empty($_GET['id']) && empty($_GET['code']))
     {
@@ -110,8 +110,7 @@ function Verify()
                 ":status"=>$statusY,
                 ":uID"=>intval($id)
             ];
-            var_dump($data);
-            var_dump($stmt->execute($data));
+            
             $stmt->execute($data);
             
             
@@ -146,7 +145,7 @@ function Verify()
 
 function login2(){
     
-    $user_login = new user();
+    $user_login = new User();
     
     if($user_login->is_logged_in()!="")
     {
@@ -168,17 +167,45 @@ function login2(){
 
 function profile()
 {
-    $user_home = new user();
+    if($_SESSION['role']==1){
+        $user_home = new Admin();
+    }else if($_SESSION['role']==2){
+        $user_home = new Seller();
+    }else if($_SESSION['role']==3){
+        $user_home = new Buyer();
+    }
+    
 
-    if($user_home->is_logged_in())
+    if(!$user_home->is_logged_in())
     {
         $user_home->redirect('index.php');
     }
-    $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userName=:uname");
-    $stmt->execute([':uname'=>$_SESSION['userName']]);
+    $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
+    $stmt->execute([':uid'=>$_SESSION['userSession']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    var_dump($row["userName"]);
+    
     require('./view/profile.php');
    
 
+}
+
+function logout()
+{
+    if($_SESSION['role']==1){
+        $user = new Admin();
+    }else if($_SESSION['role']==2){
+        $user = new Seller();
+    }else if($_SESSION['role']==3){
+        $user = new Buyer();
+    }
+    if(!$user->is_logged_in())
+{
+ $user->redirect('index.php?action=profile');
+}
+
+if($user->is_logged_in()!="")
+{
+ $user->logout(); 
+ $user->redirect('index.php');
+}
 }
