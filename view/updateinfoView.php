@@ -65,7 +65,7 @@ require_once './config/dbconfig.php';
                                         <li class="active"><a href="#tab1default" data-toggle="tab">Vos produit <span><?= $count ?></span></a></li>
                                     <?php } ?>
                                     <li><a href="#tab2default" data-toggle="tab">A propos</a></li>
-                                    <li><a href="#tab3default" data-toggle="tab">Contact</a></li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -105,23 +105,19 @@ require_once './config/dbconfig.php';
                                 <div class="tab-pane fade" id="tab2default">
                                  <div class="about-box">
                                     <h2>A propos de moi</h2>
-                                    <p> ville = <?= $row2['nom_ville'] ?></p>
-                                    <p>code postale = <?= $row2['ville'] ?></p>
-                                    <p>nom : <?= $row2['nom'] ?></p>
-                                    <p>prenom: <?= $row2['prenom'] ?></p>
-                                    <p>adresse: <?= $row2['adresse'] ?></p>
+                                    <label for="city">Ville</label>
+                                    <input type="text" name="city" value = "<?= $row2['nom_ville'] ?>"> 
+                                    <label for="cp">Code Postal</label>
+                                    <input type="text" name="cp" value="<?= $row2['ville'] ?>">
+                                    <label for="name">Nom:</label>
+                                    <input type="text" name="name" value="<?= $row2['nom'] ?>">
+                                    <label for="lastname">Prénom</label>
+                                    <input type="text" name="lastname" value="<?= $row2['prenom'] ?>">
+                                    <label for="adresse">Addresse</label>
+                                    <input type="text" name="adresse" value="<?= $row2['adresse'] ?>">
                                     <p>email: <?= $row2['email'] ?></p>
                                     <p>n° de compte : <?= $row2['compte']; ?></p>
                                  </div>
-                              </div>
-                              <div class="tab-pane fade" id="tab3default">
-                                  <form action="" class="form-group" methode="post">
-                                      <input class="form-control" type="text" name="subject" id="" placeholder="sujet" required>
-                                      <input class="form-control" type="email" name="email" id="" placeholder="adresse mail" required>
-                                      <br />
-                                      <textarea style="border : 1px solid black" class="mt-5"  name="message" id="" cols="127" rows="10" required></textarea>
-                                      <button type="submit" name="btn-send">envoyer</button>
-                                  </form>
                               </div>
                             </div>
                         </div>

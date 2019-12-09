@@ -21,6 +21,9 @@ if($_GET['action'] == 'register'){
 }else if($_GET['action'] == 'resetPassword')
 {
     resetPass();
+}else if($_GET['action'] == 'updateinfo')
+{
+    updateInfo();
 }
 }else{
     require ('./view/indexView.php');

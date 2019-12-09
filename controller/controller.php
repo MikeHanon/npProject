@@ -189,6 +189,12 @@ function profile()
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
     $product->execute([':uname'=>$_SESSION['userName']]);
     $productList=  $product->fetchAll();
+    $count = $product->rowCount();
+
+    if(isset($_POST['btn-send']))
+    {
+        $user_home->send_mail('e.artisanat.info@gmail.com',$_POST['message'], $_POST['subject']);
+    }
     
     require('./view/profile.php');
    
@@ -312,4 +318,83 @@ function resetPass()
         }
         require('./view/resetPasswordView.php');
     }
+}
+function image()
+{
+  $target_dir = "images/";
+  $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
+  $uploadOk = 1;
+  $FileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+  if (isset($_POST["btn-update"])) {
+    $check = getimagesize($_FILES["avatar"]["tmp_name"]);
+    if ($check !== false) {
+      echo "OK file" . $check["mime"] . ".";
+      $uploadOk = 1;
+    } else {
+      echo "this file is not image";
+      $uploadOk = 0;
+    }
+  }
+  // Check if file already exists
+  if (file_exists($target_file)) {
+    echo "Existing file.";
+    $uploadOk = 0;
+  }
+  // Check file size
+  if ($_FILES["avatar"]["size"] > 5000000) {
+    echo "heavy file";
+    $uploadOk = 0;
+  }
+  // Allow certain file formats
+  if (
+    $FileType != "jpg" && $FileType != "png" && $FileType != "jpeg"
+    && $FileType != "gif"
+  ) {
+    echo "Correct file only.";
+    $uploadOk = 0;
+  }
+  // Check if $uploadOk is set to 0 by an error
+  if ($uploadOk == 0) {
+    echo "Oops it did not work.";
+    // if everything is ok, try to upload file
+  } else {
+    if (move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
+      $array = explode('.', $_FILES['avatar']['name']);
+      $fileName = $array[0];
+
+      return $target_file;
+    } else {
+      echo "Sorry, there was an error uploading your file.";
+    }
+  }
+}
+
+function updateInfo()
+{
+    if($_SESSION['role']==1){
+        $user = new Admin();
+    }else if($_SESSION['role']==2){
+        $user = new Seller();
+    }else if($_SESSION['role']==3){
+        $user = new Buyer();
+    }
+
+    if(isset($_POST['btnUpdate']))
+    {
+        $target_file = image();
+        $data=[
+            ":id"=> $_GET['id'],
+            ":name"=>$_POST['name'],
+            ":lastname"=>$_POST['lastname'],
+            ":address"=>$_POST['adresse'],
+            ":email"=> $_POST['email'],
+            ":account"=>$_POST['account'],
+            ":cp"=>$_POST['cp'],
+            ":city"=>$_POST['city'],
+            ":imgPath"=> $target_file, 
+        ];
+        $stmt = $user->runQuery("UPDATE user_info SET nom=:name, prenom=:lastname, adresse=:address, email=:email, compte=:account, ville=:cp, nom_ville=:city photo=:imgPath WHERE id = :id");
+        $stmt->execute($data);
+    }
+
 }
