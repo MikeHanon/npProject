@@ -182,13 +182,13 @@ function profile()
     }
     $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
     $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE id =:uid");
-    $city = $user_home->runQuery("SELECT * FROM ville INNER JOIN user_info WHERE ville.id = user_info.ville");
+    $product = $user_home->runQuery("SELECT * FROM article WHERE username = :uname");
     $stmt->execute([':uid'=>$_SESSION['userSession']]);
     $stmt2->execute([':uid'=>$_SESSION['userSession']]);
-    $city->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    $city2 = $city->fetch(PDO::FETCH_ASSOC);
+    $product->execute([':uname'=>$_SESSION['userName']]);
+    $productList=  $product->fetchAll();
     
     require('./view/profile.php');
    
