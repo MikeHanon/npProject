@@ -34,7 +34,10 @@ require_once './config/dbconfig.php';
                                             } ?>" alt="photo profile" />
                                      
                             </div>
-                           
+                           <form action="" method="post" enctype="multipart/form-data">
+                               <input type="file" name="avatar" id="avatar">
+                               <button type="submit" name="changeAvatar">changer avatar</button>
+                           </form>
                             <div class="pof-text">
                                 <h3><?= $_SESSION['userName'] ?></h3>
                                 <div class="check-box"></div>

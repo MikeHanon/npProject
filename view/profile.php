@@ -14,8 +14,9 @@ require_once './config/dbconfig.php';
                         <div class="col-md-2"></div>
                         <div class="col-md-10">
                             <div class="profile-right-b">
-                                
+                                <?php if($_SESSION['userSession'] == $row2['id']) {?>
                                 <a class="fo-btn" href="index.php?action=updateinfo&id=<?=$_SESSION['userSession']?>">Modifier</a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,9 @@ require_once './config/dbconfig.php';
                                         <li class="active"><a href="#tab1default" data-toggle="tab">Vos produit <span><?= $count ?></span></a></li>
                                     <?php } ?>
                                     <li><a href="#tab2default" data-toggle="tab">A propos</a></li>
+                                    <?php if($_SESSION['userSession']!= $row2['id']){ ?>
                                     <li><a href="#tab3default" data-toggle="tab">Contact</a></li>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>
@@ -111,14 +114,18 @@ require_once './config/dbconfig.php';
                                     <p>prenom: <?= $row2['prenom'] ?></p>
                                     <p>adresse: <?= $row2['adresse'] ?></p>
                                     <p>email: <?= $row2['email'] ?></p>
+                                    <?php if($_SESSION['userSession']== $row2['id']){ ?>
                                     <p>n° de compte : <?= $row2['compte']; ?></p>
+                                    <?php }?>
                                  </div>
                               </div>
                               <div class="tab-pane fade" id="tab3default">
-                                  <form action="" class="form-group" methode="post">
+                                  <form action="test.php" class="form-group">
+                                      <input type="hidden" name="id" value="<?=$row2['id']?>">
+                                      <label for="subject">Sujet</label>
                                       <input class="form-control" type="text" name="subject" id="" placeholder="sujet" required>
-                                      <input class="form-control" type="email" name="email" id="" placeholder="adresse mail" required>
                                       <br />
+                                      <label for="message">message</label>
                                       <textarea style="border : 1px solid black" class="mt-5"  name="message" id="" cols="127" rows="10" required></textarea>
                                       <button type="submit" name="btn-send">envoyer</button>
                                   </form>

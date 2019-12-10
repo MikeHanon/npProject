@@ -183,6 +183,18 @@ function profile()
     $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
     $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE id =:uid");
     $product = $user_home->runQuery("SELECT * FROM article WHERE username = :uname");
+    
+  
+if(isset($_GET['id']))
+{
+    $stmt->execute([':uid'=>$_GET['id']]);
+    $stmt2->execute([':uid'=>$_GET['id']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $product->execute([':uname'=>$row2['username']]);
+    $productList=  $product->fetchAll();
+    $count = $product->rowCount();
+}else{
     $stmt->execute([':uid'=>$_SESSION['userSession']]);
     $stmt2->execute([':uid'=>$_SESSION['userSession']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -190,8 +202,18 @@ function profile()
     $product->execute([':uname'=>$_SESSION['userName']]);
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
-
-  
+}
+  if(isset($_POST['btn-send']))
+  {
+      $statement = $user_home->runQuery("INSERT INTO message (to_user_id, from_user_id, subject, message, status) VALUES (:to_user_id, :from_user_id, :subject, :message, 1)");
+      $data=[
+          ':to_user_id'=>$_GET['id'],
+          ':from_user_id'=> $_SESSION['userSession'],
+          ':subject'=>$_POST['subject'],
+          ':message'=>$_POST['message'],
+      ];
+      $statement->execute($data);
+  }
     
     require('./view/profile.php');
    
@@ -318,7 +340,7 @@ function resetPass()
 }
 function image()
 {
-    var_dump($_FILES);
+    
   $target_dir = "images/";
   $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
   $uploadOk = 1;
