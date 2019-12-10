@@ -13,10 +13,7 @@ require_once './config/dbconfig.php';
                     <div class="dit-p">
                         <div class="col-md-2"></div>
                         <div class="col-md-10">
-                            <div class="profile-right-b">
-                                
-                                <a class="fo-btn" href="index.php?action=updateinfo&id=<?=$_SESSION['userSession']?>">Modifier</a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -35,17 +32,19 @@ require_once './config/dbconfig.php';
                                             } else {
                                                 echo './images/profile.png';
                                             } ?>" alt="photo profile" />
+                                     
                             </div>
+                           
                             <div class="pof-text">
-                                <h3><?= $row['userName'] ?></h3>
+                                <h3><?= $_SESSION['userName'] ?></h3>
                                 <div class="check-box"></div>
                             </div>
                             <p><?php
-                                if ($row['role'] == 2) {
+                                if ($_SESSION['role'] == 2) {
                                     echo 'vendeur';
-                                } else if ($row['role'] == 3) {
+                                } else if ($_SESSION['role'] == 3) {
                                     echo 'acheteur';
-                                } else if ($row['role'] == 1) {
+                                } else if ($_SESSION['role'] == 1) {
                                     echo 'admin';
                                 }
 
@@ -61,7 +60,7 @@ require_once './config/dbconfig.php';
                         <div class="panel with-nav-tabs panel-default">
                             <div class="panel-heading clearfix">
                                 <ul class="nav nav-tabs pull-left">
-                                    <?php if ($row['role'] == 2) { ?>
+                                    <?php if ($_SESSION['role'] == 2) { ?>
                                         <li class="active"><a href="#tab1default" data-toggle="tab">Vos produit <span><?= $count ?></span></a></li>
                                     <?php } ?>
                                     <li><a href="#tab2default" data-toggle="tab">A propos</a></li>
@@ -72,7 +71,7 @@ require_once './config/dbconfig.php';
                         <div class="panel-body">
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="tab1default">
-                                    <?php if ($row['role'] == 2) { ?>
+                                    <?php if ($_SESSION['role'] == 2) { ?>
                                         <div class="product-box-main row">
                                             <?php
 
@@ -104,19 +103,24 @@ require_once './config/dbconfig.php';
                                 </div>
                                 <div class="tab-pane fade" id="tab2default">
                                  <div class="about-box">
+                                     <form class="form-group" action="" method="post">
                                     <h2>A propos de moi</h2>
                                     <label for="city">Ville</label>
-                                    <input type="text" name="city" value = "<?= $row2['nom_ville'] ?>"> 
+                                    <input class="form-control" type="text" name="city" value = "<?= $row2['nom_ville'] ?>"> 
                                     <label for="cp">Code Postal</label>
-                                    <input type="text" name="cp" value="<?= $row2['ville'] ?>">
+                                    <input class="form-control" type="text" name="cp" value="<?= $row2['ville'] ?>">
                                     <label for="name">Nom:</label>
-                                    <input type="text" name="name" value="<?= $row2['nom'] ?>">
+                                    <input class="form-control" type="text" name="name" value="<?= $row2['nom'] ?>">
                                     <label for="lastname">Prénom</label>
-                                    <input type="text" name="lastname" value="<?= $row2['prenom'] ?>">
+                                    <input class="form-control" type="text" name="lastname" value="<?= $row2['prenom'] ?>">
                                     <label for="adresse">Addresse</label>
-                                    <input type="text" name="adresse" value="<?= $row2['adresse'] ?>">
-                                    <p>email: <?= $row2['email'] ?></p>
-                                    <p>n° de compte : <?= $row2['compte']; ?></p>
+                                    <input class="form-control" type="text" name="adresse" value="<?= $row2['adresse'] ?>">
+                                    <label for="email">addresse email : </label>
+                                    <input class="form-control" type="email" name="email" value="<?= $row2['email'] ?>">
+                                    <label for="account">n° de compte</label>
+                                    <input class="form-control" type="text" name="account" value="<?= $row2['compte']; ?>">
+                                    <button class="btn btn-primary" type="submit" name="btnUpdate" class="">mettre a jour</button>
+                                    </form>
                                  </div>
                               </div>
                             </div>
@@ -126,12 +130,10 @@ require_once './config/dbconfig.php';
             </div>
         </div>
         <section>
-
-           
-      
+</div>
 
 
-    </div>
-    </section>
+
+   
     <?php $content = ob_get_clean(); ?>
     <?php require('template.php'); ?>

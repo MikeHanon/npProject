@@ -191,10 +191,7 @@ function profile()
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
 
-    if(isset($_POST['btn-send']))
-    {
-        $user_home->send_mail('e.artisanat.info@gmail.com',$_POST['message'], $_POST['subject']);
-    }
+  
     
     require('./view/profile.php');
    
@@ -321,11 +318,12 @@ function resetPass()
 }
 function image()
 {
+    var_dump($_FILES);
   $target_dir = "images/";
   $target_file = $target_dir . basename($_FILES["avatar"]["name"]);
   $uploadOk = 1;
   $FileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-  if (isset($_POST["btn-update"])) {
+  if (isset($_POST["changeAvatar"])) {
     $check = getimagesize($_FILES["avatar"]["tmp_name"]);
     if ($check !== false) {
       echo "OK file" . $check["mime"] . ".";
@@ -378,10 +376,17 @@ function updateInfo()
     }else if($_SESSION['role']==3){
         $user = new Buyer();
     }
+if(isset($_POST['changeAvatar']))
+{
+    $target_file = image();
+    
+    $stmt = $user->runQuery("UPDATE user_info SET photo=:imgPath WHERE id = :id ");
+    $stmt->execute([":id"=> $_GET['id'], ":imgPath"=> $target_file]);
 
+}
     if(isset($_POST['btnUpdate']))
     {
-        $target_file = image();
+        
         $data=[
             ":id"=> $_GET['id'],
             ":name"=>$_POST['name'],
@@ -389,12 +394,20 @@ function updateInfo()
             ":address"=>$_POST['adresse'],
             ":email"=> $_POST['email'],
             ":account"=>$_POST['account'],
-            ":cp"=>$_POST['cp'],
+            ":cp"=>intval($_POST['cp']),
             ":city"=>$_POST['city'],
-            ":imgPath"=> $target_file, 
+            
         ];
-        $stmt = $user->runQuery("UPDATE user_info SET nom=:name, prenom=:lastname, adresse=:address, email=:email, compte=:account, ville=:cp, nom_ville=:city photo=:imgPath WHERE id = :id");
+        $stmt = $user->runQuery("UPDATE user_info SET nom=:name, prenom=:lastname, adresse=:address, email=:email, compte=:account, ville=:cp, nom_ville=:city WHERE id = :id");
         $stmt->execute($data);
+        header("location: index.php?action=profile");
     }
-
+    $stmt2 = $user->runQuery("SELECT * FROM user_info WHERE id =:uid");
+    $stmt2->execute([':uid'=>$_SESSION['userSession']]);
+    $product = $user->runQuery("SELECT * FROM article WHERE username = :uname");
+    $product->execute([':uname'=>$_SESSION['userName']]);
+    $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $count = $product->rowCount();
+    $productList=  $product->fetchAll();
+require('./view/updateinfoView.php');
 }
