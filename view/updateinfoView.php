@@ -66,13 +66,14 @@ require_once './config/dbconfig.php';
                                     <?php if ($_SESSION['role'] == 2) { ?>
                                         <li class="active"><a href="#tab1default" data-toggle="tab">Vos produit <span><?= $count ?></span></a></li>
                                     <?php } ?>
-                                    <li><a href="#tab2default" data-toggle="tab">A propos</a></li>
+                                    <li><a href="#tab<?= ($_SESSION['role'] == 3)? 1 : 2?>default" data-toggle="tab">A propos</a></li>
                                     
                                 </ul>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
+                            <?php if($_SESSION['role'] == 3){echo ' ';}else{ ?>
                                 <div class="tab-pane fade in active" id="tab1default">
                                     <?php if ($_SESSION['role'] == 2) { ?>
                                         <div class="product-box-main row">
@@ -104,7 +105,8 @@ require_once './config/dbconfig.php';
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab2default">
+                                <?php } ?>
+                                <div class="tab-pane fade <?=($_SESSION['role'] == 3)?"in active" : ' '?>" id="tab<?= ($_SESSION['role'] == 3)? 1 : 2?>default">
                                  <div class="about-box">
                                      <form class="form-group" action="" method="post">
                                     <h2>A propos de moi</h2>

@@ -180,23 +180,24 @@ function profile()
     {
         $user_home->redirect('index.php');
     }
-    $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userID=:uid");
-    $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE id =:uid");
+    $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userName=:uname");
+    $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE username =:uname");
     $product = $user_home->runQuery("SELECT * FROM article WHERE username = :uname");
     
   
-if(isset($_GET['id']))
+if(isset($_GET['username']))
 {
-    $stmt->execute([':uid'=>$_GET['id']]);
-    $stmt2->execute([':uid'=>$_GET['id']]);
+    $stmt->execute([':uname'=>$_GET['username']]);
+    $stmt2->execute([':uname'=>$_GET['username']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+ 
     $product->execute([':uname'=>$row2['username']]);
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
 }else{
-    $stmt->execute([':uid'=>$_SESSION['userSession']]);
-    $stmt2->execute([':uid'=>$_SESSION['userSession']]);
+    $stmt->execute([':uname'=>$_SESSION['userName']]);
+    $stmt2->execute([':uname'=>$_SESSION['userName']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
     $product->execute([':uname'=>$_SESSION['userName']]);
@@ -207,7 +208,7 @@ if(isset($_GET['id']))
   {
       $statement = $user_home->runQuery("INSERT INTO message (to_user_id, from_user_id, subject, message, status) VALUES (:to_user_id, :from_user_id, :subject, :message, 1)");
       $data=[
-          ':to_user_id'=>$_GET['id'],
+          ':to_user_id'=>$row2['id'],
           ':from_user_id'=> $_SESSION['userSession'],
           ':subject'=>$_POST['subject'],
           ':message'=>$_POST['message'],

@@ -65,15 +65,18 @@ require_once './config/dbconfig.php';
                                     <?php if ($row['role'] == 2) { ?>
                                         <li class="active"><a href="#tab1default" data-toggle="tab">Vos produit <span><?= $count ?></span></a></li>
                                     <?php } ?>
-                                    <li><a href="#tab2default" data-toggle="tab">A propos</a></li>
+                                    <li><a href="#tab<?= ($row['role'] == 3)? 1 : 2?>default" data-toggle="tab">A propos</a></li>
                                     <?php if($_SESSION['userSession']!= $row2['id']){ ?>
                                     <li><a href="#tab3default" data-toggle="tab">Contact</a></li>
-                                    <?php } ?>
+                                    <?php }else{ ?>
+                                        <li><a href="#tab3default" data-toggle="tab">Message <span><?= $countMessage ?></span></a></li>
+                                    <?php }?>
                                 </ul>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
+                            <?php if($row['role'] == 3){echo ' ';}else{ ?>
                                 <div class="tab-pane fade in active" id="tab1default">
                                     <?php if ($row['role'] == 2) { ?>
                                         <div class="product-box-main row">
@@ -105,7 +108,8 @@ require_once './config/dbconfig.php';
                                                 </div>
                                         </div>
                                 </div>
-                                <div class="tab-pane fade" id="tab2default">
+                                <?php } ?>
+                                <div class="tab-pane fade <?=($row['role'] == 3)?"in active" : ' '?>" id="tab<?= ($row['role'] == 3)? 1 : 2?>default">
                                  <div class="about-box">
                                     <h2>A propos de moi</h2>
                                     <p> ville = <?= $row2['nom_ville'] ?></p>
@@ -120,7 +124,8 @@ require_once './config/dbconfig.php';
                                  </div>
                               </div>
                               <div class="tab-pane fade" id="tab3default">
-                                  <form action="test.php" class="form-group">
+                              <?php if($_SESSION['userSession']!= $row2['id']){ ?>
+                                  <form action="" class="form-group" method="post">
                                       <input type="hidden" name="id" value="<?=$row2['id']?>">
                                       <label for="subject">Sujet</label>
                                       <input class="form-control" type="text" name="subject" id="" placeholder="sujet" required>
@@ -129,6 +134,23 @@ require_once './config/dbconfig.php';
                                       <textarea style="border : 1px solid black" class="mt-5"  name="message" id="" cols="127" rows="10" required></textarea>
                                       <button type="submit" name="btn-send">envoyer</button>
                                   </form>
+                                  <?php }else{ ?>
+                                    <div class="container">
+                                        <div class="row">
+                                    <div class="col-md-4"> <p> sujet : </p> 
+                                    <p>debut message</p>    
+                                </div>
+                                <div class="col-md-8">
+                                    <p>sujet</p>
+                                    <p>message</p>
+                                    <form action="" method="post">
+                                        <textarea style="border : 1px solid black" class="my-5" name="" id="" cols="50" rows="3"></textarea>
+                                        <button type="submit">envoyer</button>
+                                    </form>
+                                </div>
+                                </div>
+                                </div>
+                                    <?php }?>
                               </div>
                             </div>
                         </div>

@@ -77,7 +77,7 @@ Class User
                     else
                     {
                         
-                        header("Location: index.php?action=login&error=$upass&$test");
+                        header("Location: index.php?action=login&error");
                         exit;
                         
                     }
