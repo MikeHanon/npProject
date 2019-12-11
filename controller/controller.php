@@ -183,15 +183,16 @@ function profile()
     $stmt = $user_home->runQuery("SELECT * FROM tbl_users WHERE userName=:uname");
     $stmt2 = $user_home->runQuery("SELECT * FROM user_info WHERE username =:uname");
     $product = $user_home->runQuery("SELECT * FROM article WHERE username = :uname");
-    
-  
+    $messagec = $user_home->runQuery("SELECT * FROM message WHERE to_user_id = :uid AND status = 1");
+    $message = $user_home->runQuery("SELECT * FROM message user_info WHERE to_user_id= :uid");
+    $fromUserId = $user_home->runQuery("SELECT username FROM user_info WHERE id= :uid");
 if(isset($_GET['username']))
 {
     $stmt->execute([':uname'=>$_GET['username']]);
     $stmt2->execute([':uname'=>$_GET['username']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
- 
+    
     $product->execute([':uname'=>$row2['username']]);
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
@@ -200,9 +201,16 @@ if(isset($_GET['username']))
     $stmt2->execute([':uname'=>$_SESSION['userName']]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $messagec->execute([':uid'=>$row2['id']]);
+    $message->execute([':uid'=>$row2['id']]);
     $product->execute([':uname'=>$_SESSION['userName']]);
+   
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
+    $countMessage = $messagec->rowCount(); 
+    $allMessage = $message->fetchAll(PDO::FETCH_ASSOC);
+   
+    
 }
   if(isset($_POST['btn-send']))
   {
@@ -215,6 +223,7 @@ if(isset($_GET['username']))
       ];
       $statement->execute($data);
   }
+ 
     
     require('./view/profile.php');
    
