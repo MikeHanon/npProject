@@ -102,12 +102,14 @@ require_once './config/dbconfig.php';
                                                                 </div>
                                                                 <a href="index.php?action=article&id=<?=$result['id_article']?>" tabindex="0"><?= $result['prix'] ?> €</a>
                                                             </div>
-                                                    <?php }
-                                                        } ?>
+                                                    
 
                                                         </div>
-                                                        <a class="fo-btn" href="index.php?action=addproduct">ajouter un produit</a>
+                                                        
                                                     </div>
+                                                    <?php }
+                                                        } ?>
+                                                        <a class="fo-btn" href="index.php?action=createarticle">ajouter un produit</a>
                                             </div>
                                     </div>
                                 <?php } ?>

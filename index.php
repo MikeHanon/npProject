@@ -27,6 +27,9 @@ if($_GET['action'] == 'register'){
 }else if($_GET['action'] == 'article')
 {
     article();
+}else if($_GET['action'] == 'createarticle')
+{
+    createArticle();
 }
 }else{
     require ('./view/indexView.php');

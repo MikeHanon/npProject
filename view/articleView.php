@@ -40,28 +40,35 @@ require_once './config/dbconfig.php';
                                 </div>
                                 <ul class="preview-thumbnail nav nav-tabs">
                                     <li class="active"><a data-target="#pic-1" data-toggle="tab"><?php if ($row['img_path'] != "") {
-                                                                                echo "<img src=" . $row['img_path'] . " alt=" . $row['artcile_name'] . " />";
-                                                                            } else {
-                                                                                echo "<img  src='./images/product/1.png'  />";
-                                                                            } ?></a></li>
+                                                                                                        echo "<img src=" . $row['img_path'] . " alt=" . $row['artcile_name'] . " />";
+                                                                                                    } else {
+                                                                                                        echo "<img  src='./images/product/1.png'  />";
+                                                                                                    } ?></a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="description-box">
                         <div class="dex-a">
-                           <h4>Description</h4>
-                           <p><?= $row['description']?>
-                           </p>
+                            <h4>Description</h4>
+                            <p><?= $row['description'] ?>
+                            </p>
                         </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-3 col-sm-12">
+                  <div class="price-box-right">
+                     <h4>Price</h4>
+                     <h3><?= $row['prix']?> € <span>par piece</span></h3>
+                     <p>stock restant = <?=$row['quantite']?></p>
+                     <a href="index.php?action=addArticle">Ajouter au panier</a>
+                  </div>
+                  
+</div>
         </div>
     </div>
 </div>
 
-   
 <?php $content = ob_get_clean(); ?>
-    <?php require('template.php'); ?>
-
-    
+<?php require('template.php'); ?>

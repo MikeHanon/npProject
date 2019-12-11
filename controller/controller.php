@@ -461,3 +461,37 @@ $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 
 require('./view/articleView.php');
 }
+
+function createArticle()
+{
+    $user = new User;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+    if(isset($_POST['create']))
+    {
+        $stmt = $user->runQuery("INSERT INTO article (artcile_name, username, description, prix, quantite, category_id, img_path) VALUES (:a, :b, :c, :d, :e, :f, :g)");
+        $target_file = image();
+        
+        $data=
+        [
+            ":a"=>$_POST['article_name'],
+            ":b"=>$_SESSION['userName'],
+            ":c"=>$_POST['description'],
+            ":d"=>$_POST['prix'],
+            ":e"=>$_POST['quantité'],
+            ":f"=>$_POST['category_id'],
+            ":g"=>$target_file,
+
+        ];
+        
+        try{
+        $stmt->execute($data);
+    } catch (Exception $e)
+    {
+        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+    }
+    }
+    require('./view/createArticleView.php');
+}
