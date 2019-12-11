@@ -90,7 +90,7 @@ require_once './config/dbconfig.php';
                                                         <div class="small-box-c">
                                                             <div class="small-img-b">
                                                                 <?php if ($result['img_path'] != "") {
-                                                                                echo "<img src=" . $result['img_path'] . " alt=" . $result['artcle_name'] . " />";
+                                                                                echo "<img src=" . $result['img_path'] . " alt=" . $result['artcile_name'] . " />";
                                                                             } else {
                                                                                 echo "<img  src='./images/product/1.png'  />";
                                                                             } ?>
@@ -98,9 +98,9 @@ require_once './config/dbconfig.php';
                                                             <div class="dit-t clearfix">
                                                                 <div class="left-ti">
                                                                     <h4><?= $result['artcile_name'] ?></h4>
-                                                                    <p>par <span><?= $result['username'] ?></span></p>
+                                                                    <p>par <span><a href="index.php?action=profile&username=<?= $result['username'] ?>"><?= $result['username'] ?></a></span></p>
                                                                 </div>
-                                                                <a href="#" tabindex="0"><?= $result['prix'] ?> €</a>
+                                                                <a href="index.php?action=article&id=<?=$result['id_article']?>" tabindex="0"><?= $result['prix'] ?> €</a>
                                                             </div>
                                                     <?php }
                                                         } ?>
@@ -140,7 +140,12 @@ require_once './config/dbconfig.php';
                                         </form>
                                     <?php } else {  ?>
                                         <div class="container">
-                                            <?php
+                                            
+                                                <div class="row">
+
+                                                    <div class="col-md-2">
+                                                    <ul>
+                                                    <?php
                                                 $i = 0;
                                                 foreach ($allMessage as $res) {
                                                     
@@ -148,16 +153,23 @@ require_once './config/dbconfig.php';
                                                     $sender = $fromUserId->fetch(PDO::FETCH_ASSOC);
                                                    
                                                     ?>
-                                                <div class="row">
-
-                                                    <div class="col-md-2" style="border-bottom: 1px solid black" onclick="display(<?= $i ?>)">
+                                                        <li onclick="display(<?= $i ?>)" style="border-bottom: 1px solid black" >
                                                         <p> <?= $res['subject'] ?></p>
                                                         <p><?= $res['message'] ?></p>
+                                                    </li>
+                                                    <?php $i++; } ?>
+                                                    </ul>
                                                     </div>
-                                                    <div class="col-md-10" id="response<?= $i ?>" style="display:none">
-                                                        <p id="username<?=$i?>"><?= $sender['username'] ?></p>
-                                                        <p id="subject<?=$i?>"> <?= $res['subject'] ?></p>
-                                                        <p id="message<?=$i?>"><?= $res['message'] ?></p>
+                                                <?php 
+                                                $j=0;
+                                                foreach ($allMessage as $res) {
+                                                    print_r ($res);
+                                                    echo '<br> <br>'
+                                                ?>
+                                                    <div class="col-md-10" id="response<?= $j ?>" style="display:none">
+                                                        <p id="username<?=$j?>"><?= $sender['username'] ?></p>
+                                                        <p id="subject<?=$j?>"> <?= $res['subject'] ?></p>
+                                                        <p id="message<?=$j?>"><?= $res['message'] ?></p>
 
                                                         <form action="" method="post">
                                                             <input type="hidden" name="id" value="<?=$res['from_user_id']?>">
@@ -166,7 +178,7 @@ require_once './config/dbconfig.php';
                                                             <button type="submit" name="reply">envoyer</button>
                                                         </form>
                                                     </div>
-                                                <?php $i++;
+                                                <?php $j++;
                                                         
                                                     }
                                                     if(isset($_POST['reply']))
@@ -199,6 +211,7 @@ require_once './config/dbconfig.php';
     </div>
     </section>
     <script>
+ 
         function display(i) {
             document.getElementById(`response${i}`).style.display = "block"
         }

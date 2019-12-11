@@ -443,3 +443,21 @@ if(isset($_POST['changeAvatar']))
     $productList=  $product->fetchAll();
 require('./view/updateinfoView.php');
 }
+
+function article()
+{
+    $user = new User;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+$stmt = $user->runQuery("SELECT * FROM article WHERE id_article = :idarticle");
+$stmt2 = $user->runQuery("SELECT photo FROM user_info WHERE username = :uname");
+$stmt->execute([':idarticle'=>$_GET['id']]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt2->execute([':uname'=>$row['username']]);
+$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+
+require('./view/articleView.php');
+}
