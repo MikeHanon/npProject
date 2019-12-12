@@ -71,6 +71,7 @@ require_once './config/dbconfig.php';
                                     <?php } else { ?>
                                         <li><a href="#tab3default" data-toggle="tab">Message <span><?= $countMessage ?></span></a></li>
                                     <?php } ?>
+                                    <li><a href="#tab4default" data-toggle="tab">Avis</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -196,6 +197,35 @@ require_once './config/dbconfig.php';
                                                         } ?>
                                                 </div>
                                         </div>
+                                    <?php } ?>
+                                </div>
+                                <div class="tab-pane fade" id="tab4default"> 
+                                    <div class="comment">
+                                        <?php 
+                                        if($countComment<0){
+                                        foreach($comment as $row12) {
+                                            
+                                            ?>
+                                            <p><strong> <?= $row12['from_username'] ?></strong> <span><?= $row12['timestamp']?></span> </p>
+                                            <p><?= $row12['comment'] ?></p>
+                                            <p>note = <?= $row12['note']?> /5</p>
+                                            <hr>
+                                        <?php }}?>
+                                    </div>
+                                    <?php if(isset($_GET['username'])){ ?>
+                                    <form action="" method="post">
+                                        <label for="comment">commentaire</label>
+                                        <textarea name="comment" id="" cols="80" rows="10" style="border: 1px solid black"></textarea>
+                                        <label for="note">note</label>
+                                        <select name="note" id="">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                        <button type="submit" name="addcomment">ajouter un commentaire</button>
+                                    </form>
                                     <?php } ?>
                                 </div>
                             </div>

@@ -186,16 +186,20 @@ function profile()
     $messagec = $user_home->runQuery("SELECT * FROM message WHERE to_user_id = :uid AND status = 1");
     $message = $user_home->runQuery("SELECT * FROM message user_info WHERE to_user_id= :uid");
     $fromUserId = $user_home->runQuery("SELECT username FROM user_info WHERE id= :uid");
+    $stmt3= $user_home->runQuery("SELECT * FROM comment WHERE to_user_id = :uid");
 if(isset($_GET['username']))
 {
     $stmt->execute([':uname'=>$_GET['username']]);
     $stmt2->execute([':uname'=>$_GET['username']]);
+    
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-    
+    $stmt3->execute([':uid'=>$row2['id']]);
     $product->execute([':uname'=>$row2['username']]);
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
+    $countComment = $stmt3->rowCount();
+    $comment = $stmt3->fetch(PDO::FETCH_ASSOC);
 }else{
     $stmt->execute([':uname'=>$_SESSION['userName']]);
     $stmt2->execute([':uname'=>$_SESSION['userName']]);
@@ -204,11 +208,13 @@ if(isset($_GET['username']))
     $messagec->execute([':uid'=>$row2['id']]);
     $message->execute([':uid'=>$row2['id']]);
     $product->execute([':uname'=>$_SESSION['userName']]);
-   
+    $stmt3->execute([':uid'=>$row2['id']]);
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
+    $countComment = $stmt3->rowCount();
     $countMessage = $messagec->rowCount(); 
     $allMessage = $message->fetchAll(PDO::FETCH_ASSOC);
+    $comment = $stmt3->fetchAll();
    
     
 }
@@ -222,6 +228,20 @@ if(isset($_GET['username']))
           ':message'=>$_POST['message'],
       ];
       $statement->execute($data);
+  }
+
+  if(isset($_POST['addcomment']))
+  {
+      $stat = $user_home->runQuery("INSERT INTO comment (from_user_id, from_username, to_user_id, comment, note) VALUES(:from_user_id, :from_username, :to_user_id, :comment, :note)");
+      $data= [
+          ':from_user_id' => $_SESSION['userSession'],
+          ':from_username'=> $_SESSION['userName'],
+          ':to_user_id'=> $row2['id'],
+          ':comment'=> $_POST['comment'],
+          ':note'=> $_POST['note']
+      ];
+      var_dump($data);
+      $stat->execute($data);
   }
  
     
@@ -367,12 +387,12 @@ function image()
   }
   // Check if file already exists
   if (file_exists($target_file)) {
-    echo "Existing file.";
-    $uploadOk = 0;
+    
+    $uploadOk = 1;
   }
   // Check file size
   if ($_FILES["avatar"]["size"] > 5000000) {
-    echo "heavy file";
+    
     $uploadOk = 0;
   }
   // Allow certain file formats
@@ -380,12 +400,12 @@ function image()
     $FileType != "jpg" && $FileType != "png" && $FileType != "jpeg"
     && $FileType != "gif"
   ) {
-    echo "Correct file only.";
+    
     $uploadOk = 0;
   }
   // Check if $uploadOk is set to 0 by an error
   if ($uploadOk == 0) {
-    echo "Oops it did not work.";
+    
     // if everything is ok, try to upload file
   } else {
     if (move_uploaded_file($_FILES["avatar"]["tmp_name"], $target_file)) {
@@ -464,7 +484,7 @@ require('./view/articleView.php');
 
 function createArticle()
 {
-    $user = new User;
+    $user = new Seller;
     if(!$user->is_logged_in())
     {
         $user->redirect('index.php');
@@ -494,4 +514,67 @@ function createArticle()
     }
     }
     require('./view/createArticleView.php');
+}
+function updateArticle()
+{
+    $user = new Seller;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+$stmt = $user->runQuery("SELECT * FROM article WHERE id_article = :idarticle");
+$stmt->execute([':idarticle'=>$_GET['id']]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+if(isset($_POST['update']))
+{
+    $stmt2= $user->runQuery("UPDATE article SET artcile_name=:a, username=:b, description=:c, prix=:d, quantite=:e, category_id=:f, img_path=:g WHERE id_article = :aid");
+    $target_file = image();
+        if($target_file == NULL){
+            $target_file = $_POST['test'];
+        }
+    $data=
+    [
+        ":aid"=>$row["id_article"],
+        ":a"=>$_POST['article_name'],
+        ":b"=>$_SESSION['userName'],
+        ":c"=>$_POST['description'],
+        ":d"=>$_POST['prix'],
+        ":e"=>$_POST['quantité'],
+        ":f"=>$_POST['category_id'],
+        ":g"=>$target_file,
+
+    ];
+    
+    try{
+    $stmt2->execute($data);
+} catch (Exception $e)
+{
+    echo 'Exception reçue : ',  $e->getMessage(), "\n";
+}
+}
+require('./view/updateProductView.php');
+}
+function deleteProduct()
+{
+    $user= new Seller;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+    $stmt = $user->runQuery("DELETE FROM article WHERE id_article = :aid");
+    $stmt->execute([':aid'=>$_GET['id']]);
+header('location: index.php?action=profile');
+}
+function addToCart()
+{
+    $user = new Buyer;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+    $stmt = $user->runQuery("INSERT INTO commande (user_id, article_presta, prix) VALUES (:uid, :article, :prix");
+    $data = [
+        ":uid"=>$_SESSION['userSession'],
+        ":article"=> $_GET['id'] ,
+    ];
 }

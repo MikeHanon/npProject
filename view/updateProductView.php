@@ -2,35 +2,21 @@
 require_once './config/dbconfig.php';
 
 ?>
-
+<form action="" method="post" enctype="multipart/form-data" >
 <div class="product-page-main">
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-7 col-sm-6">
                 <div class="prod-page-title">
-                    <h2><?= $row['artcile_name'] ?></h2>
+                    
+                    <label for="article_name">Nom de l'article</label>
+                    <input class="form-control" type="text" name="article_name" id="" value="<?= $row['artcile_name'] ?>" required>
 
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-2 col-sm-4">
-                <div class="left-profile-box-m prod-page">
-                    <div class="pro-img">
-                        <img src="<?= $row2['photo'] ?>" alt="photo profile" />
-                    </div>
-                    <div class="pof-text">
-                        <h3><?= $row['username'] ?></h3>
-                        <div class="check-box"></div>
-                    </div>
-                    <?php if($row['username'] == $_SESSION['userName']){ ?>
-                    <a href="index.php?action=updateproduct&id=<?=$_GET['id']?>">mettre à jour</a>
-                    <a href="index.php?action=deleteproduct&id=<?=$_GET['id']?>">supprimer le produit</a>
-                    <?php } else { ?>
-                    <a href="index.php?action=profile&username=<?= $row['username'] ?>">Visitez le profile</a>
-                    <?php } ?>
-                </div>
-            </div>
+           
             <div class="col-md-7 col-sm-8">
                 <div class="md-prod-page">
                     <div class="md-prod-page-in">
@@ -42,6 +28,9 @@ require_once './config/dbconfig.php';
                                                                             } else {
                                                                                 echo "<img  src='./images/product/1.png'  />";
                                                                             } ?></div>
+                            <label for="avatar"> ajouter une image :</label>
+                            <input type="file" name="avatar" value="<?= $row['img_path'] ?>" id="avatar">
+                            <input type="hidden" name="test" value="<?= $row['img_path'] ?>">
                                 </div>
                                 <ul class="preview-thumbnail nav nav-tabs">
                                     <li class="active"><a data-target="#pic-1" data-toggle="tab"><?php if ($row['img_path'] != "") {
@@ -56,7 +45,7 @@ require_once './config/dbconfig.php';
                     <div class="description-box">
                         <div class="dex-a">
                             <h4>Description</h4>
-                            <p><?= $row['description'] ?>
+                            <textarea name="description" id="" cols="85" rows="10" style="border : 1px solid black"  required><?= $row['description'] ?></textarea>
                             </p>
                         </div>
                     </div>
@@ -64,16 +53,28 @@ require_once './config/dbconfig.php';
             </div>
             <div class="col-md-3 col-sm-12">
                   <div class="price-box-right">
-                     <h4>Price</h4>
-                     <h3><?= $row['prix']?> € <span>par piece</span></h3>
-                     <p>stock restant = <?=$row['quantite']?></p>
-                     <a href="index.php?action=addArticle">Ajouter au panier</a>
+                     <h4>Prix</h4>
+                     <label for="prix">Prix</label>
+                <input class="form-control" type="text" name="prix" id="" value="<?= $row['prix']?>" required>  <span>€ par piece</span>
+                <label for="quantité">stock = </label>
+                <input class="form-control" type="text" name="quantité" id="" value="<?=$row['quantite']?>" required>
+
+                     <label for="category_id"> Catégorie </label>
+                <select  class="form-control" name="category_id">
+                    <option  id="" value="1"<?=($row['category_id']=== "1"? 'selected' : '')?>>Alimentation</option>
+                    <option  id="" value="2"<?=($row['category_id']=== "2"? 'selected' : '')?>>Batiments</option>
+                    <option  id="" value="3"<?=($row['category_id']=== "3"? 'selected' : '')?>>Fabrication</option>
+                    <option  id="" value="4"<?=($row['category_id']=== "4"? 'selected' : '')?>>Service</option>
+                </select>
+                <button class="btn btn-primary" style="margin-top: 10px" name="update" type="submit">modifier l'article</button>
                   </div>
                   
 </div>
         </div>
     </div>
 </div>
-
+<script>
+console.log(document.getElementById('avatar').value)
+</script>
 <?php $content = ob_get_clean(); ?>
 <?php require('template.php'); ?>

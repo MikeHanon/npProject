@@ -38,7 +38,7 @@ require_once './config/dbconfig.php';
             <div class="price-box-right">
                 <h4>Prix</h4>
                 <label for="prix">Prix</label>
-                <input class="form-control" type="text" name="prix" id="" required><span>par piece</span></h3>
+                <input class="form-control" type="text" name="prix" id="" required><span>par piece</span>
                 <br>
                 <label for="quantité">stock = </label>
                 <input class="form-control" type="text" name="quantité" id="" required>

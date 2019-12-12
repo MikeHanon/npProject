@@ -30,6 +30,13 @@ if($_GET['action'] == 'register'){
 }else if($_GET['action'] == 'createarticle')
 {
     createArticle();
+}else if($_GET['action'] == 'updateproduct')
+{
+    updateArticle();
+}
+else if($_GET['action'] == 'deleteproduct')
+{
+    deleteProduct();
 }
 }else{
     require ('./view/indexView.php');
