@@ -2,6 +2,9 @@
 require_once './config/dbconfig.php';
 
 ?>
+?>
+
+<?php ob_start(); ?>
 
 <div class="product-page-main">
     <div class="container">
@@ -66,8 +69,20 @@ require_once './config/dbconfig.php';
                   <div class="price-box-right">
                      <h4>Price</h4>
                      <h3><?= $row['prix']?> € <span>par piece</span></h3>
-                     <p>stock restant = <?=$row['quantite']?></p>
-                     <a href="index.php?action=addArticle">Ajouter au panier</a>
+                     <form action="index.php?action=addArticle&id=<?=$_GET['id']?>" method="post">
+                     <select name="quantity" id="">
+                         <?php 
+                   
+                         $quantity = intval($row['quantite']);
+                         var_dump($quantity);
+                         for ($i = 1; $i <= $quantity; $i++) {
+                            echo  "<option value=".$i.">".$i."</option>";
+                        }
+                         ?>
+                         
+                     </select>
+                     <button type="submit">Ajouter au panier</b>
+                     </form>
                   </div>
                   
 </div>

@@ -37,6 +37,15 @@ if($_GET['action'] == 'register'){
 else if($_GET['action'] == 'deleteproduct')
 {
     deleteProduct();
+}else if($_GET['action'] == 'addArticle')
+{
+    addToCart();
+}else if($_GET['action'] == 'panier')
+{
+    cart();
+}else if($_GET['action'] == 'validercommande')
+{
+    validerCommande();
 }
 }else{
     require ('./view/indexView.php');

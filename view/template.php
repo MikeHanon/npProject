@@ -57,8 +57,8 @@
                                                     Profile
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <a class="dropdown-item" href="#">Votre Compte</a>
-                                                    <a class="dropdown-item" href="#">commande</a>
+                                                    <a class="dropdown-item" href="index.php?action=profile">Votre Compte</a>
+                                                    <a class="dropdown-item" href="index.php?action=panier">commande</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="index.php?action=logout">deconexion</a>
                                                 </div>

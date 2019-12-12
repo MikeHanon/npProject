@@ -572,9 +572,58 @@ function addToCart()
     {
         $user->redirect('index.php');
     }
-    $stmt = $user->runQuery("INSERT INTO commande (user_id, article_presta, prix) VALUES (:uid, :article, :prix");
+    $stmt = $user->runQuery("SELECT * FROM article WHERE id_article = :idarticle");
+$stmt->execute([':idarticle'=>$_GET['id']]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt2 = $user->runQuery("INSERT INTO commande (user_id, article_presta, quantity, prix) VALUES (:uid, :article, :quantity, :prix)");
     $data = [
         ":uid"=>$_SESSION['userSession'],
-        ":article"=> $_GET['id'] ,
+        ":article"=> $row['artcile_name'] ,
+        ":quantity"=>$_POST['quantity'],
+        ":prix"=> $row['prix']
     ];
+    $stmt2->execute($data);
+    $stmt3 = $user->runQuery("UPDATE article SET quantite = :quantity WHERE id_article = :idarticle ");
+    $calc = $row['quantite'] - $_POST['quantity'];
+    $stmt3->execute([':idarticle'=>$_GET['id'], ':quantity'=>$calc]);
+    $user->redirect('index.php?action=article&id='.$_GET['id']);
+}
+
+function cart()
+{
+    $user=new Buyer;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+    $stmt = $user->runQuery("SELECT * FROM commande WHERE user_id = :uid");
+    $stmt->execute([':uid'=>$_SESSION['userSession']]);
+    $row= $stmt->fetchAll();
+
+require('./view/panierView.php');
+}
+function validerCommande()
+{
+    $user = new Buyer;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+    $stmt = $user->runQuery("SELECT userEmail FROM tbl_users WHERE userID = :uid");
+    $stmt->execute([':uid'=>$_SESSION['userSession']]);
+    $row= $stmt->fetch(PDO::FETCH_ASSOC);
+    $email= $row['userEmail'];
+    $message = "
+    Bonjour, 
+    <br /> <br />
+    Nous vous confirmons votre commande celle-ci sera chez vous dans quelque jours
+    <br /> <br />
+    Bien à vous
+    l'équipe de E-artisanat
+    ";
+    $subject = "confirmation de votre commande";
+    $user->send_mail($email,$message,$subject);
+    $stmt2 = $user->runQuery("DELETE FROM commande WHERE user_id =:uid");
+    $stmt2->execute([':uid'=>$_SESSION['userSession']]);
+    $user->redirect('index.php?action=profile');
 }

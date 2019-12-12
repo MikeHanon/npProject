@@ -2,6 +2,9 @@
 require_once './config/dbconfig.php';
 
 ?>
+?>
+
+<?php ob_start(); ?>
 <form action="" method="post" enctype="multipart/form-data" >
 <div class="product-page-main">
     <div class="container">
