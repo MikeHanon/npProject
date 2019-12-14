@@ -187,6 +187,7 @@ function profile()
     $message = $user_home->runQuery("SELECT * FROM message user_info WHERE to_user_id= :uid");
     $fromUserId = $user_home->runQuery("SELECT username FROM user_info WHERE id= :uid");
     $stmt3= $user_home->runQuery("SELECT * FROM comment WHERE to_user_id = :uid");
+    $stmt4 = $user_home->runQuery("SELECT * FROM tbl_users");
 if(isset($_GET['username']))
 {
     $stmt->execute([':uname'=>$_GET['username']]);
@@ -209,12 +210,14 @@ if(isset($_GET['username']))
     $message->execute([':uid'=>$row2['id']]);
     $product->execute([':uname'=>$_SESSION['userName']]);
     $stmt3->execute([':uid'=>$row2['id']]);
+    $stmt4->execute();
     $productList=  $product->fetchAll();
     $count = $product->rowCount();
     $countComment = $stmt3->rowCount();
     $countMessage = $messagec->rowCount(); 
     $allMessage = $message->fetchAll(PDO::FETCH_ASSOC);
     $comment = $stmt3->fetchAll();
+    $alluser=$stmt4->fetchAll();
    
     
 }
@@ -455,10 +458,10 @@ if(isset($_POST['changeAvatar']))
         header("location: index.php?action=profile");
     }
     $stmt2 = $user->runQuery("SELECT * FROM user_info WHERE id =:uid");
-    $stmt2->execute([':uid'=>$_SESSION['userSession']]);
+    $stmt2->execute([':uid'=>$_GET['id']]);
     $product = $user->runQuery("SELECT * FROM article WHERE username = :uname");
-    $product->execute([':uname'=>$_SESSION['userName']]);
     $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+    $product->execute([':uname'=>$row2['username']]);
     $count = $product->rowCount();
     $productList=  $product->fetchAll();
 require('./view/updateinfoView.php');
@@ -626,4 +629,45 @@ function validerCommande()
     $stmt2 = $user->runQuery("DELETE FROM commande WHERE user_id =:uid");
     $stmt2->execute([':uid'=>$_SESSION['userSession']]);
     $user->redirect('index.php?action=profile');
+}
+function category()
+{
+    $user = new User;
+    if(!$user->is_logged_in())
+    {
+       $stmt = $user->runQuery("SELECT * FROM category WHERE category_id = :categoryId ");
+        $stmt->execute([":categoryId"=> $_GET['id']]);
+        $row= $stmt->fetch(PDO::FETCH_ASSOC);
+    }else
+    {
+        $stmt = $user->runQuery("SELECT * FROM article WHERE category_id = :categoryId");
+        $stmt->execute([":categoryId"=> $_GET['id']]);
+        $row= $stmt->fetchAll();
+    }
+    require('./view/categoryView.php');
+}
+function contact()
+{
+    $user=new User;
+    if(isset($_POST['envoyer'])){
+        $message= $_POST['message'];
+        $subject= $_POST['subject'];
+        $email= 'mike.hanon@gmail.com';
+        $user->send_mail($email,$message, $subject);
+    }
+    require('./view/contactView.php');
+}
+
+function search()
+{
+    $user = new User;
+    if(!$user->is_logged_in())
+    {
+        $user->redirect('index.php');
+    }
+
+        $stmt = $user->runQuery("SELECT * FROM article WHERE artcile_name = :name");
+        $stmt->execute([":name"=> $_GET['search']]);
+        $row= $stmt->fetchAll();
+        require('./view/searchView.php');
 }

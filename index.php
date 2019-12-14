@@ -46,6 +46,21 @@ else if($_GET['action'] == 'deleteproduct')
 }else if($_GET['action'] == 'validercommande')
 {
     validerCommande();
+}else if($_GET['action'] == 'category')
+{
+    category();
+}else if($_GET['action'] == 'contact')
+{
+    contact();
+}else if($_GET['action'] == 'faq')
+{
+    require('./view/faq.php');
+}else if($_GET['action'] == 'apropos')
+{
+    require('./view/apropos.php');
+}else if($_GET['action'] == 'search')
+{
+    search();
 }
 }else{
     require ('./view/indexView.php');

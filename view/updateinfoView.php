@@ -85,7 +85,7 @@ require_once './config/dbconfig.php';
                                                     <div class="small-box-c">
                                                         <div class="small-img-b">
                                                             <?php if ($result['img_path'] != "") {
-                                                                        echo "<img src=" . $result['img_path'] . " alt=" . $result['artcle_name'] . " />";
+                                                                        echo "<img src=" . $result['img_path'] . " alt=" . $result['artcile_name'] . " />";
                                                                     } else {
                                                                         echo "<img  src='./images/product/1.png'  />";
                                                                     } ?>
@@ -97,14 +97,16 @@ require_once './config/dbconfig.php';
                                                             </div>
                                                             <a href="#" tabindex="0"><?= $result['prix'] ?> €</a>
                                                         </div>
+                                                        </div>
+                                                        </div>
                                                 <?php }
                                                 } ?>
                                                 
-                                                    </div>
+                                                    
                                                     <a class="fo-btn" href="index.php?action=addproduct">ajouter un produit</a>
                                                 </div>
                                         </div>
-                                </div>
+                                
                                 <?php } ?>
                                 <div class="tab-pane fade <?=($_SESSION['role'] == 3)?"in active" : ' '?>" id="tab<?= ($_SESSION['role'] == 3)? 1 : 2?>default">
                                  <div class="about-box">
@@ -128,6 +130,7 @@ require_once './config/dbconfig.php';
                                     </form>
                                  </div>
                               </div>
+                              
                             </div>
                         </div>
                     </div>

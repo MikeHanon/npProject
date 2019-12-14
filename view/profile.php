@@ -72,12 +72,15 @@ require_once './config/dbconfig.php';
                                         <li><a href="#tab3default" data-toggle="tab">Message <span><?= $countMessage ?></span></a></li>
                                     <?php } ?>
                                     <li><a href="#tab4default" data-toggle="tab">Avis</a></li>
+                                    <?php if ($row['role'] == 1){ ?>
+                                    <li><a href="#tab5default" data-toggle="tab">GESTION ADMIN</a></li>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
-                                <?php if ($row['role'] == 3) {
+                                <?php if ($row['role'] == 3 OR $row['role'] == 1) {
                                     echo ' ';
                                 } else { ?>
                                     <div class="tab-pane fade in active" id="tab1default">
@@ -114,7 +117,7 @@ require_once './config/dbconfig.php';
                                             </div>
                                     </div>
                                 <?php } ?>
-                                <div class="tab-pane fade <?= ($row['role'] == 3) ? "in active" : ' ' ?>" id="tab<?= ($row['role'] == 3) ? 1 : 2 ?>default">
+                                <div class="tab-pane fade <?= ($row['role'] == 3 OR $row['role'] == 1 ) ? "in active" : ' ' ?>" id="tab<?= ($row['role'] == 3) ? 1 : 2 ?>default">
                                     <div class="about-box">
                                         <h2>A propos de moi</h2>
                                         <p> ville = <?= $row2['nom_ville'] ?></p>
@@ -228,6 +231,31 @@ require_once './config/dbconfig.php';
                                     </form>
                                     <?php } ?>
                                 </div>
+                                <?php if($row['role']== 1){ ?>
+                                <div class="tab-pane fade" id="tab5default"> 
+                                    <table class="table">
+                                        <tr>
+                                            <td>Username</td>
+                                            <td>Email</td>
+                                            <td>role</td>
+                                            <td>modifier</td>
+                                            <td>supprimer</td>
+                                        </tr>
+                                    
+                                    <?php foreach($alluser as $oneUser) {?>
+                                        <tr>
+                                            <th><?=$oneUser['userName']?></th>
+                                            <th><?=$oneUser['userEmail']?></th>
+                                            <th><?=$oneUser['role']?></th>
+                                            <th> <a href="index.php?action=updateinfo&id=<?=$oneUser['userID']?>">modifier</a>
+                                            <th> <a href="index.php?action=deleteuser&id=<?=$oneUser['userID']?>">delete</a> </th>
+                                            </th>
+                                            
+                                        </tr>
+                                    <?php }?>
+                                    </table>
+                                </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

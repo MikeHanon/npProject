@@ -14,7 +14,7 @@ require_once './config/dbconfig.php';
                 </h4>
                 <div class="row clearfix">
                     <div class="col-lg-3 col-sm-6 col-md-3">
-                        <a href="#">
+                        <a href="index.php?action=category&id=1">
                             <div class="box-img">
                                 <h4>Alimentation</h4>
                                 <img src="./images/product/allimentation.png" alt="" />
@@ -22,7 +22,7 @@ require_once './config/dbconfig.php';
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3">
-                        <a href="productpage.html">
+                        <a href="index.php?action=category&id=2"">
                             <div class="box-img">
                                 <h4>Batiment</h4>
                                 <img src="./images/product/batiment.png" alt="" />
@@ -30,7 +30,7 @@ require_once './config/dbconfig.php';
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3">
-                        <a href="productpage.html">
+                        <a href="index.php?action=category&id=3">
                             <div class="box-img">
                                 <h4>Fabrication</h4>
                                 <img src="./images/product/fabrication.png" alt="" />
@@ -38,7 +38,7 @@ require_once './config/dbconfig.php';
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3">
-                        <a href="productpage.html">
+                        <a href="index.php?action=category&id=4">
                             <div class="box-img">
                                 <h4>Services</h4>
                                 <img src="./images/product/service.png" alt="" />
