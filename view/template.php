@@ -18,7 +18,7 @@
    <!--responsive css-->
    <link rel="stylesheet" href="./css/responsive.css">
    <title><?=
-               isset($title) ? $title . 'E-Artisanat' : 'E-Artisanat, revalorisont l\'artisanat'
+               isset($title) ? $title . ' E-Artisanat' : 'E-Artisanat, revalorisont l\'artisanat'
             ?></title>
 </head>
 
