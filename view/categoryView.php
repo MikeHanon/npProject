@@ -62,3 +62,5 @@ require_once './config/dbconfig.php';
     <?php } ?> 
 <?php $content = ob_get_clean(); ?>
         <?php require('template.php'); ?>
+
+        

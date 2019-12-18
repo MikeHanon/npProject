@@ -128,7 +128,7 @@ header .navbar-default .navbar-header {
 
 .navbar-brand {
 	float: left;
-	padding: 21px 15px;
+	
 	font-size: 18px;
 	line-height: 20px;
 	height: 66px;
@@ -145,7 +145,7 @@ header .navbar-default .navbar-header {
 
 
 .navbar-brand>img {
-	width: 90px;
+	width: 100px;
 }
 
 .web-sh.navbar-form input {
